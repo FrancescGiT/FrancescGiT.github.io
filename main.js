@@ -100,7 +100,7 @@ function updateCopy() {
   langTrigger.setAttribute('aria-label', t.langSelect);
   langMenu.setAttribute('aria-label', t.localeName);
   $('.portrait-frame img').alt = currentLang === 'es' ? 'Retrato de Francesc Benach Garcia' : 'Portrait of Francesc Benach Garcia';
-  $('.desktop-nav').setAttribute('aria-label', currentLang === 'es' ? 'Navegación principal' : 'Main navigation';
+  $('.desktop-nav').setAttribute('aria-label', currentLang === 'es' ? 'Navegación principal' : 'Main navigation');
   $('#menuToggle').setAttribute('aria-label', menuToggle.getAttribute('aria-expanded') === 'true' ? t.menuClose : t.menuOpen);
   $$('[data-lang]', langMenu).forEach(b => b.setAttribute('aria-checked', String(b.dataset.lang === currentLang)));
   const cv = currentLang === 'es' ? './files/Francesc_Benach_CV_ES.pdf' : './files/Francesc_Benach_CV_EN.pdf';
@@ -201,13 +201,33 @@ function onScroll() {
     $('#header').classList.toggle('on-dark', inDark);
     const max = document.documentElement.scrollHeight - window.innerHeight;
     $('#progress').style.width = (max > 0 ? 100 * latestScroll/max : 0) + '%';
-    const visible = latestScroll < $('#about').offsetTop - window.innerHeight*0.36;
+    const stage = $('#assembly');
+    const visible = latestScroll < manifesto.offsetTop - window.innerHeight*0.10;
     $('#cinema').classList.toggle('visible',visible);
-    $('#cinema').classList.toggle('is-story',latestScroll > manifesto.offsetTop - window.innerHeight*0.3);
-    window.dispatchEvent(new CustomEvent('portfolio-scroll', {detail:{scroll: latestScroll, heroHeight: $('#hero').offsetHeight, storyHeight: manifesto.offsetHeight}}));
+    $('#cinema').classList.toggle('is-story',latestScroll >= stage.offsetTop - window.innerHeight*.25);
+    const travel = Math.max(1, stage.offsetHeight - window.innerHeight);
+    const stageProgress = Math.max(0, Math.min(1, (latestScroll-stage.offsetTop)/travel));
+    const range = $('#assemblyRange');
+    if (document.activeElement !== range) range.value = String(Math.round(stageProgress*100));
+    $('#assemblyProgressText').textContent = `${Math.round(stageProgress*100)}%`;
+    document.documentElement.style.setProperty('--assembly-progress', stageProgress.toFixed(4));
+    window.dispatchEvent(new CustomEvent('portfolio-scroll', {detail:{scroll: latestScroll, heroHeight: $('#hero').offsetHeight, assemblyTop:stage.offsetTop,assemblyTravel:travel,progress:stageProgress}}));
     ticking = false;
   });
 }
 window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll,{passive:true});
 onScroll();
+
+const assemblySlider = $('#assemblyRange');
+assemblySlider.addEventListener('input', () => {
+  const value = Number(assemblySlider.value) / 100;
+  $('#assemblyProgressText').textContent = `${Math.round(value * 100)}%`;
+  document.documentElement.style.setProperty('--assembly-progress', String(value));
+  window.dispatchEvent(new CustomEvent('portfolio-inspect', {detail:{progress:value}}));
+});
+assemblySlider.addEventListener('change', () => {
+  const section = $('#assembly');
+  const travel = Math.max(1, section.offsetHeight - innerHeight);
+  window.scrollTo({top:section.offsetTop + travel*(Number(assemblySlider.value)/100),behavior:'smooth'});
+});
