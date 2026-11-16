@@ -1,29 +1,38 @@
 # Francesc Benach Garcia — Portfolio
 
-Web: https://francescgit.github.io/
+Web pública: https://francescgit.github.io/
 
-## Experiencia
+Portfolio cinematográfico bilingüe español/inglés con navegación por escenas, ocho proyectos originales, índice accesible y ficha profesional completa.
 
-Portfolio de una sola página para Francesc Benach Garcia, ingeniero electrónico y director de proyectos.
+## Proyectos
 
-- Portada editorial y transición cinematográfica hacia un portátil, activada por scroll, gestos táctiles, teclas o el botón Portfolio.
-- Tres casos reales de trabajo: DOIT New Gen multisensorial, integración RF 868/915 MHz (prototipo) y mejora digital de procesos.
-- Navegación entre casos, retorno a portada y ficha profesional con experiencia y enlaces a los currículums.
-- Selector ES/EN que recuerda el idioma. Modo de movimiento reducido compatible.
-- La estructura visual y los scripts principales están incluidos en `index.html`, sin framework ni compilación.
+1. Sistema multisensorial New Gen
+2. Gateway RF 868/915 MHz (prototipo)
+3. Transformación digital DOIT
+4. CRM / Jira Dashboard
+5. Packing List App
+6. Agentes operativos DOIT
+7. Lumina
+8. Herramientas Web Serial
 
-## Recursos
+## Trayectoria y formación
 
-Las imágenes y el vídeo de transición originales indicados en el brief se solicitan desde sus URLs externas y pueden depender de su disponibilidad. La página contiene una fotografía conceptual alternativa incrustada y un marco de portátil de respaldo para evitar pantallas vacías. La fotografía de portada es representativa, no un retrato de Francesc.
+Cinco etapas documentadas desde 2018: MAETEL, iDeeFe and Wits, PoweredCub, DOIT Multisensorial y evolución hacia la transformación digital. Tres entradas de formación: Ingeniería Electrónica Industrial y Automática en la Universitat Rovira i Virgili, introducción a IA en BIG School y transformación digital en GDPYMES.
 
-Los CV se conservan en `files/`, la fotografía profesional de la ficha en `media/` y el favicon en la raíz.
+Los CV anteriores se conservan en `files/Francesc_Benach_CV_ES.pdf` y `files/Francesc_Benach_CV_EN.pdf`. La fotografía profesional real del titular se encuentra en `media/francesc-benach.webp`.
 
-## Copias conservadas
+## Navegación y materiales
 
-- `backup/portfolio-original-2026-11-16`
-- `backup/portfolio-before-laptop-dive-2026-11-16`
-- Otras ramas de rediseño anteriores siguen disponibles para comparación y recuperación.
+El usuario puede entrar al portátil y desplazarse entre casos con rueda, teclado, gestos y botones. El índice permite saltar a cualquiera de los ocho proyectos y la ficha profesional ofrece pestañas de experiencia, formación y competencias. ES/EN se guarda en el navegador.
 
-## Publicación
+Las pantallas de proyectos son ilustraciones y prototipos de interfaz, no capturas de datos reales. La escena principal del estudio es conceptual; la fotografía que acredita la identidad del titular es la del badge y de la ficha profesional.
 
-GitHub Pages sirve `main` y el archivo raíz `index.html`.
+`index.html` contiene CSS y JavaScript en línea. No requiere compilación. La transición original utiliza recursos externos, con una representación y animación alternativa cuando no están disponibles.
+
+## Copias
+
+- `backup/portfolio-original-2026-11-16` — portfolio original antes de los rediseños
+- `backup/portfolio-before-laptop-dive-2026-11-16` — versión cinematográfica anterior
+- `backup/portfolio-laptop-dive-2026-11-16-before-expansion` — versión Laptop Dive de tres proyectos
+
+Conservar estas ramas para restauraciones.
