@@ -1,21 +1,29 @@
 # Francesc Benach Garcia
 
-Portfolio profesional de Francesc Benach Garcia.
+Portfolio de ingeniería y dirección técnica. Español e inglés.
 
-**Web:** https://francescgit.github.io/
+## Estructura
 
-## Contenido
+- `index.html` — estructura semántica de la web.
+- `site.css` — sistema visual y adaptaciones responsivas.
+- `content.js` — textos, proyectos, trayectoria y formación en ambos idiomas.
+- `main.js` — interfaz, navegación, filtros, traducciones y detalles.
+- `scene.js` — modelo tridimensional por piezas y animación de scroll.
+- `vendor/three.module.js` — motor 3D versión r170 (licencia MIT en `vendor/LICENSE-three.txt`).
+- `media/francesc-benach.webp` y `files/` — fotografía y currículums existentes.
 
-Trayectoria, especialidades, proyectos seleccionados, formación y contacto profesional.
+## Uso local
 
-La web puede consultarse en español e inglés mediante el selector de idioma de la cabecera. La preferencia se guarda en el navegador. El botón principal de descarga del currículum utiliza el documento correspondiente al idioma seleccionado.
+Se necesita servir archivos mediante HTTP para importar los módulos ES:
 
-## Actualización y publicación
+```sh
+python3 -m http.server 8080
+```
 
-La versión pública se publica desde la rama `main` mediante GitHub Pages. Los archivos de la web están en la raíz del repositorio y utilizan rutas relativas.
+Abrir http://localhost:8080/. No requiere instalación de dependencias ni compilación.
 
-Los currículums se encuentran en `files/` y la fotografía profesional en `media/`.
+## Publicación
 
-## Copia de seguridad
+La rama `main` se publica desde GitHub Pages. La rama `backup/portfolio-original-2026-11-16` conserva el portfolio original, y `backup/portfolio-v2-2026-11-16` conserva el diseño anterior a esta revisión.
 
-El estado anterior al rediseño se mantiene en la rama `backup/portfolio-original-2026-11-16` (commit `5d31883ed8ed219809e35ed7931689c11dbad4a6`). No eliminar esa rama si se desea conservar la versión original.
+El idioma se obtiene del navegador si no hay selección previa y se recuerda localmente. Todas las acciones de navegación son enlaces HTML reales. El contenido básico y las secciones siguen siendo legibles aunque no se pueda inicializar el motor 3D.
