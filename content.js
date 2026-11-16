@@ -1,5 +1,6 @@
 export const translations = {
   es: {
+    skip:'Saltar al contenido',brandRole:'INGENIERÍA / PROYECTOS',heroEdge:'SISTEMAS EN MOVIMIENTO',heroSide:'DISEÑADO CON CRITERIO / 2026',manifestoOffset:'LA FORMA SIGUE A LA FUNCIÓN',manifestoFoot:'OBSERVAR · PENSAR · HACER',
     navAbout:'Sobre mí',navWork:'Proyectos',navCareer:'Trayectoria',navContact:'Contacto',
     heroLabel:'INGENIERÍA / PRODUCTO / PERSONAS',heroLine1:'Las ideas',heroLine2:'se hacen',heroLine3:'reales.',heroIntro:'Soy Francesc Benach. Diseño electrónica, desarrollo sistemas y coordino proyectos para convertir problemas complejos en soluciones que funcionan.',explore:'Explorar proyectos',downloadCv:'Descargar CV',heroBottom:'Electrónica · Sistemas · Dirección',scroll:'DESLIZA PARA DESCUBRIR',
     manifestoKicker:'UNA FORMA DE PENSAR',manifestoLabel:'NO SE TRATA SOLO DE TECNOLOGÍA',manifestoLine1:'Pienso en',manifestoLine2:'todo el',manifestoLine3:'sistema.',manifestoText:'Una placa no existe aislada. Detrás hay usuarios, procesos, personas y decisiones. Mi trabajo consiste en conectar esas partes hasta que el conjunto tiene sentido.',manifestoItem1:'01 / DISEÑAR',manifestoItem2:'02 / CONSTRUIR',manifestoItem3:'03 / MEJORAR',
@@ -11,6 +12,7 @@ export const translations = {
     localeName:'Español',menuOpen:'Abrir menú',menuClose:'Cerrar menú',langSelect:'Seleccionar idioma',
   },
   en: {
+    skip:'Skip to content',brandRole:'ENGINEER / PROJECT LEAD',heroEdge:'SYSTEMS IN MOTION',heroSide:'ENGINEERED WITH INTENT / 2026',manifestoOffset:'FORM FOLLOWS FUNCTION',manifestoFoot:'SENSE · THINK · MAKE',
     navAbout:'About',navWork:'Work',navCareer:'Experience',navContact:'Contact',
     heroLabel:'ENGINEERING / PRODUCT / PEOPLE',heroLine1:'Ideas',heroLine2:'made',heroLine3:'real.',heroIntro:'I’m Francesc Benach. I design electronics, develop systems and lead projects that turn complex challenges into things that work.',explore:'Selected work',downloadCv:'Download résumé',heroBottom:'Electronics · Systems · Leadership',scroll:'SCROLL TO EXPLORE',
     manifestoKicker:'A WAY OF THINKING',manifestoLabel:'IT IS NEVER JUST ABOUT TECHNOLOGY',manifestoLine1:'I see the',manifestoLine2:'whole',manifestoLine3:'system.',manifestoText:'A circuit board never exists in isolation. There are users, processes, people and decisions behind it. My role is to connect the pieces until everything makes sense.',manifestoItem1:'01 / DESIGN',manifestoItem2:'02 / BUILD',manifestoItem3:'03 / IMPROVE',
