@@ -27,3 +27,11 @@ Abrir http://localhost:8080/. No requiere instalación de dependencias ni compil
 La rama `main` se publica desde GitHub Pages. La rama `backup/portfolio-original-2026-11-16` conserva el portfolio original, y `backup/portfolio-v2-2026-11-16` conserva el diseño anterior a esta revisión.
 
 El idioma se obtiene del navegador si no hay selección previa y se recuerda localmente. Todas las acciones de navegación son enlaces HTML reales. El contenido básico y las secciones siguen siendo legibles aunque no se pueda inicializar el motor 3D.
+
+## Despiece interactivo
+
+El portfolio incorpora una escena tridimensional procedimental compuesta por carcasa, PCB, componentes, bastidor, iluminación e interfaz óptica. Las piezas se separan físicamente en la escena durante el scroll de la sección «El despiece». Un deslizador accesible permite controlar directamente el grado de separación. Si el dispositivo no soporta WebGL, se utiliza una alternativa visual por capas que conserva la interacción.
+
+La preferencia de idioma ES/EN se guarda localmente, y los enlaces de descarga del CV usan el idioma seleccionado. El motor y sus recursos de ejecución son locales, sin servicios 3D externos.
+
+**Copias conservadas:** `backup/portfolio-original-2026-11-16`, `backup/portfolio-v2-2026-11-16` y `backup/portfolio-cinematic-pre-exploded-2026-11-16`.
