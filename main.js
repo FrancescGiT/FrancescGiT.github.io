@@ -22,14 +22,15 @@ const LANG_KEY = 'francesc-benach-language';
 const getCopy = () => translations[currentLang];
 
 function artwork(type) {
+  const es = currentLang === 'es';
   switch (type) {
-    case 'circuit': return `<div class="art-piece art-circuit"><div class="orbit"></div><div class="orbit"></div><div class="module"><div class="chip">F/B</div><i class="led"></i><i class="led led2"></i><span class="microtext">CONTROL SYSTEM / PCB_01</span></div></div>`;
+    case 'circuit': return `<div class="art-piece art-circuit"><div class="orbit"></div><div class="orbit"></div><div class="module"><div class="chip">F/B</div><i class="led"></i><i class="led led2"></i><span class="microtext">${es ? 'SISTEMA DE CONTROL' : 'CONTROL SYSTEM'} / PCB_01</span></div></div>`;
     case 'digital': return `<div class="art-piece art-digital"><div class="app-frame"><div class="app-toolbar"><span></span><span></span><span></span></div><div class="app-main"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>`;
     case 'gateway': return `<div class="art-piece art-gateway"><div class="frequency"><div class="fcore">RF</div></div><div class="freqlabel">868 ↔ 915</div></div>`;
     case 'boxes': return `<div class="art-piece art-boxes"><div class="box-plane"></div><div class="parcel second"></div><div class="parcel"></div></div>`;
-    case 'dashboard': return `<div class="art-piece art-dashboard"><div class="dash-window"><div class="dash-top">OPERATIONS / OVERVIEW</div><div class="dash-sidebar"><span></span><span></span><span></span><span></span></div><div class="dash-content"><div class="dash-metrics"><span>32</span><span>08</span><span>96%</span></div><div class="chart-bars"><i style="--h:35%"></i><i style="--h:48%"></i><i style="--h:59%"></i><i style="--h:44%"></i><i style="--h:68%"></i><i style="--h:78%"></i><i style="--h:85%"></i><i style="--h:96%"></i></div></div></div></div>`;
-    case 'agents': return `<div class="art-piece art-agents"><div class="flow-line"></div><div class="flow-path"></div><div class="flow-node">INPUT</div><div class="flow-node">PROCESS</div><div class="flow-node">DONE ✓</div></div>`;
-    case 'lumina': return `<div class="art-piece art-lumina"><div class="phone"><div class="screen">LUMINA / TODAY<div class="orb"></div>HOW ARE YOU FEELING?</div></div></div>`;
+    case 'dashboard': return `<div class="art-piece art-dashboard"><div class="dash-window"><div class="dash-top">${es ? 'OPERACIONES / RESUMEN' : 'OPERATIONS / OVERVIEW'}</div><div class="dash-sidebar"><span></span><span></span><span></span><span></span></div><div class="dash-content"><div class="dash-metrics"><span>32</span><span>08</span><span>96%</span></div><div class="chart-bars"><i style="--h:35%"></i><i style="--h:48%"></i><i style="--h:59%"></i><i style="--h:44%"></i><i style="--h:68%"></i><i style="--h:78%"></i><i style="--h:85%"></i><i style="--h:96%"></i></div></div></div></div>`;
+    case 'agents': return `<div class="art-piece art-agents"><div class="flow-line"></div><div class="flow-path"></div><div class="flow-node">${es ? 'ENTRADA' : 'INPUT'}</div><div class="flow-node">${es ? 'PROCESO' : 'PROCESS'}</div><div class="flow-node">${es ? 'LISTO' : 'DONE'} ✓</div></div>`;
+    case 'lumina': return `<div class="art-piece art-lumina"><div class="phone"><div class="screen">LUMINA / ${es ? 'HOY' : 'TODAY'}<div class="orb"></div>${es ? '¿CÓMO TE SIENTES?' : 'HOW ARE YOU FEELING?'}</div></div></div>`;
     case 'serial': return `<div class="art-piece art-serial"><div class="wire"></div><div class="device"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>`;
     default: return '';
   }
@@ -49,7 +50,7 @@ function makeProject(project) {
   card.dataset.type = project.type;
   const typeName = getCopy()['projectKind' + ({ product: 'Product', digital: 'Digital', ai: 'AI' })[project.type]];
   card.setAttribute('aria-label', `${getCopy().viewProject}: ${p.name}`);
-  card.innerHTML = `<div class="project-art"><span class="project-no">${project.number} / 08</span><span class="project-top-label">F / B — SELECTED WORK</span>${artwork(project.art)}<span class="project-open" aria-hidden="true">↗</span></div>`;
+  card.innerHTML = `<div class="project-art"><span class="project-no">${project.number} / 08</span><span class="project-top-label">F / B — ${currentLang === 'es' ? 'SELECCIÓN' : 'SELECTED WORK'}</span>${artwork(project.art)}<span class="project-open" aria-hidden="true">↗</span></div>`;
   const info = textNode('div', '', 'project-info');
   const main = textNode('div', '', 'project-info-main');
   main.append(textNode('h3', p.name), textNode('p', p.caption));
@@ -97,6 +98,9 @@ function updateCopy() {
   $('#langFlag').textContent = currentLang === 'es' ? '🇪🇸' : '🇺🇸';
   $('#langCode').textContent = currentLang.toUpperCase();
   langTrigger.setAttribute('aria-label', t.langSelect);
+  langMenu.setAttribute('aria-label', t.localeName);
+  $('.portrait-frame img').alt = currentLang === 'es' ? 'Retrato de Francesc Benach Garcia' : 'Portrait of Francesc Benach Garcia';
+  $('.desktop-nav').setAttribute('aria-label', currentLang === 'es' ? 'Navegación principal' : 'Main navigation';
   $('#menuToggle').setAttribute('aria-label', menuToggle.getAttribute('aria-expanded') === 'true' ? t.menuClose : t.menuOpen);
   $$('[data-lang]', langMenu).forEach(b => b.setAttribute('aria-checked', String(b.dataset.lang === currentLang)));
   const cv = currentLang === 'es' ? './files/Francesc_Benach_CV_ES.pdf' : './files/Francesc_Benach_CV_EN.pdf';
