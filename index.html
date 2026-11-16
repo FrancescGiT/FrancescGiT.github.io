@@ -15,11 +15,11 @@
 <script type="module" src="./scene.js"></script>
 </head>
 <body>
-<a class="skip" href="#work">Saltar al contenido</a>
+<a class="skip" href="#work" data-t="skip">Saltar al contenido</a>
 <div class="load-line" aria-hidden="true"><span id="progress"></span></div>
 <header id="header" class="header">
   <div class="header-inner">
-    <a class="brand" href="#top" aria-label="Francesc Benach, inicio"><span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-type">Francesc <b>Benach</b><small>ENGINEER / PROJECT LEAD</small></span></a>
+    <a class="brand" href="#top" aria-label="Francesc Benach, inicio"><span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-type">Francesc <b>Benach</b><small data-t="brandRole">INGENIERÍA / PROYECTOS</small></span></a>
     <nav class="desktop-nav" aria-label="Navegación principal"><a href="#about" data-t="navAbout">Sobre mí</a><a href="#work" data-t="navWork">Proyectos</a><a href="#career" data-t="navCareer">Trayectoria</a><a href="#contact" data-t="navContact">Contacto</a></nav>
     <div class="header-tools">
       <div class="language" id="language"><button class="language-button" id="langTrigger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="langMenu" aria-label="Seleccionar idioma"><span id="langFlag" aria-hidden="true">🇪🇸</span><span id="langCode">ES</span><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="m3.5 6 4.5 4 4.5-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
@@ -33,7 +33,7 @@
 <div class="cinema" id="cinema" aria-hidden="true"><div id="world" class="world"></div><div class="world-fallback" aria-hidden="true"><div class="fallback-grid"></div><div class="fallback-disc"><i></i><b>FB / 01</b><span>HARDWARE<br>+ SOUL</span></div></div></div>
 <main id="top">
   <section class="hero" id="hero" aria-labelledby="heroTitle">
-    <div class="hero-edge" aria-hidden="true">01 / 06 — SYSTEMS IN MOTION</div>
+    <div class="hero-edge" aria-hidden="true">01 / 06 — <span data-t="heroEdge">SISTEMAS EN MOVIMIENTO</span></div>
     <div class="hero-copy">
       <p class="eyebrow" data-t="heroLabel"><span class="eyebrow-line"></span> INGENIERÍA / PRODUCTO / PERSONAS</p>
       <h1 id="heroTitle" class="display"><span data-t="heroLine1">Las ideas</span><span data-t="heroLine2">se hacen</span><em data-t="heroLine3">reales.</em></h1>
@@ -41,12 +41,12 @@
       <div class="hero-actions"><a class="action action-dark" href="#work"><span data-t="explore">Explorar proyectos</span><span class="action-icon" aria-hidden="true">↗</span></a><a class="action-under" href="./files/Francesc_Benach_CV_ES.pdf" id="heroCv" download><span data-t="downloadCv">Descargar CV</span><span aria-hidden="true">↓</span></a></div>
     </div>
     <div class="hero-bottom"><div class="hero-index"><span class="hero-index-num">F / B</span><span data-t="heroBottom">Electrónica · Sistemas · Dirección</span></div><a class="scroll-indicator" href="#manifesto"><span data-t="scroll">DESLIZA PARA DESCUBRIR</span><span class="scroll-line" aria-hidden="true"></span><span aria-hidden="true">↓</span></a></div>
-    <div class="hero-side-label" aria-hidden="true">ENGINEERED WITH INTENT / 2026</div>
+    <div class="hero-side-label" aria-hidden="true" data-t="heroSide">DISEÑADO CON CRITERIO / 2026</div>
   </section>
   <section class="manifesto" id="manifesto" aria-labelledby="manifestoTitle">
     <div class="section-meta"><span>02 / 06</span><span data-t="manifestoKicker">UNA FORMA DE PENSAR</span></div>
-    <div class="manifesto-layout"><div class="manifesto-offset" aria-hidden="true"><span>↓</span><small>FORM FOLLOWS FUNCTION</small></div><div class="manifesto-copy"><p class="kicker kicker-light" data-t="manifestoLabel">NO SE TRATA SOLO DE TECNOLOGÍA</p><h2 id="manifestoTitle" class="large-heading"><span data-t="manifestoLine1">Pienso en</span><span data-t="manifestoLine2">todo el</span><em data-t="manifestoLine3">sistema.</em></h2><p class="manifesto-description" data-t="manifestoText">Una placa no existe aislada. Detrás hay usuarios, procesos, personas y decisiones. Mi trabajo consiste en conectar esas partes hasta que el conjunto tiene sentido.</p><div class="manifesto-notes"><span data-t="manifestoItem1">01 / DISEÑAR</span><span data-t="manifestoItem2">02 / CONSTRUIR</span><span data-t="manifestoItem3">03 / MEJORAR</span></div></div></div>
-    <span class="manifesto-foot" aria-hidden="true">SENSE · THINK · MAKE</span>
+    <div class="manifesto-layout"><div class="manifesto-offset" aria-hidden="true"><span>↓</span><small data-t="manifestoOffset">LA FORMA SIGUE A LA FUNCIÓN</small></div><div class="manifesto-copy"><p class="kicker kicker-light" data-t="manifestoLabel">NO SE TRATA SOLO DE TECNOLOGÍA</p><h2 id="manifestoTitle" class="large-heading"><span data-t="manifestoLine1">Pienso en</span><span data-t="manifestoLine2">todo el</span><em data-t="manifestoLine3">sistema.</em></h2><p class="manifesto-description" data-t="manifestoText">Una placa no existe aislada. Detrás hay usuarios, procesos, personas y decisiones. Mi trabajo consiste en conectar esas partes hasta que el conjunto tiene sentido.</p><div class="manifesto-notes"><span data-t="manifestoItem1">01 / DISEÑAR</span><span data-t="manifestoItem2">02 / CONSTRUIR</span><span data-t="manifestoItem3">03 / MEJORAR</span></div></div></div>
+    <span class="manifesto-foot" aria-hidden="true" data-t="manifestoFoot">OBSERVAR · PENSAR · HACER</span>
   </section>
   <section class="about section-pad" id="about" aria-labelledby="aboutTitle">
     <div class="section-meta section-meta-dark"><span>03 / 06</span><span data-t="aboutKicker">EL PERFIL</span></div>
