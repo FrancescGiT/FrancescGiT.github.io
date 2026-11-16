@@ -3,61 +3,244 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f1f0e9">
+<meta name="theme-color" content="#0b0f14">
 <meta name="description" content="Francesc Benach Garcia. Ingeniería electrónica, sistemas embebidos, dirección técnica y transformación digital.">
 <meta property="og:title" content="Francesc Benach — Ingeniería con propósito">
 <meta property="og:description" content="Del hardware al sistema. Ingeniería electrónica, firmware, producto y dirección de proyectos.">
 <meta property="og:type" content="website">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-<title>Francesc Benach — Ingeniería con propósito</title>
+<title>Francesc Benach Garcia — Ingeniería y producto</title>
 <link rel="stylesheet" href="./site.css">
 <script type="module" src="./main.js"></script>
 <script type="module" src="./scene.js"></script>
 </head>
 <body>
 <a class="skip" href="#work" data-t="skip">Saltar al contenido</a>
+<div class="site-backdrop" aria-hidden="true">
+  <div class="noise"></div>
+  <div class="grid"></div>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+</div>
 <div class="load-line" aria-hidden="true"><span id="progress"></span></div>
 <header id="header" class="header">
-  <div class="header-inner">
-    <a class="brand" href="#top" aria-label="Francesc Benach, inicio"><span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-type">Francesc <b>Benach</b><small data-t="brandRole">INGENIERÍA / PROYECTOS</small></span></a>
-    <nav class="desktop-nav" aria-label="Navegación principal"><a href="#about" data-t="navAbout">Sobre mí</a><a href="#work" data-t="navWork">Proyectos</a><a href="#career" data-t="navCareer">Trayectoria</a><a href="#contact" data-t="navContact">Contacto</a></nav>
+  <div class="header-inner shell">
+    <a class="brand" href="#top" aria-label="Francesc Benach, inicio">
+      <span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span class="brand-type">Francesc <b>Benach</b><small data-t="brandRole">INGENIERÍA / PROYECTOS</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      <a href="#about" data-t="navAbout">Sobre mí</a>
+      <a href="#work" data-t="navWork">Proyectos</a>
+      <a href="#career" data-t="navCareer">Trayectoria</a>
+      <a href="#contact" data-t="navContact">Contacto</a>
+    </nav>
     <div class="header-tools">
-      <div class="language" id="language"><button class="language-button" id="langTrigger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="langMenu" aria-label="Seleccionar idioma"><span id="langFlag" aria-hidden="true">🇪🇸</span><span id="langCode">ES</span><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="m3.5 6 4.5 4 4.5-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
-        <div id="langMenu" class="language-menu" role="menu" aria-label="Idioma" hidden><button role="menuitemradio" aria-checked="false" data-lang="en" type="button"><i class="radio-dot" aria-hidden="true"></i><span aria-hidden="true">🇺🇸</span> English <small>EN</small></button><button role="menuitemradio" aria-checked="true" data-lang="es" type="button"><i class="radio-dot" aria-hidden="true"></i><span aria-hidden="true">🇪🇸</span> Español <small>ES</small></button></div>
+      <div class="language" id="language">
+        <button class="language-button" id="langTrigger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="langMenu" aria-label="Seleccionar idioma">
+          <span id="langFlag" aria-hidden="true">🇪🇸</span>
+          <span id="langCode">ES</span>
+          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="m3.5 6 4.5 4 4.5-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <div id="langMenu" class="language-menu" role="menu" aria-label="Idioma" hidden>
+          <button role="menuitemradio" aria-checked="false" data-lang="en" type="button"><i class="radio-dot" aria-hidden="true"></i><span aria-hidden="true">🇺🇸</span> English <small>EN</small></button>
+          <button role="menuitemradio" aria-checked="true" data-lang="es" type="button"><i class="radio-dot" aria-hidden="true"></i><span aria-hidden="true">🇪🇸</span> Español <small>ES</small></button>
+        </div>
       </div>
       <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
     </div>
   </div>
-  <nav id="mobileNav" class="mobile-nav" aria-label="Navegación móvil" hidden><a href="#about" data-t="navAbout">Sobre mí</a><a href="#work" data-t="navWork">Proyectos</a><a href="#career" data-t="navCareer">Trayectoria</a><a href="#contact" data-t="navContact">Contacto</a><small>FRANCESC BENACH · 2026</small></nav>
+  <nav id="mobileNav" class="mobile-nav" aria-label="Navegación móvil" hidden>
+    <a href="#about" data-t="navAbout">Sobre mí</a>
+    <a href="#work" data-t="navWork">Proyectos</a>
+    <a href="#career" data-t="navCareer">Trayectoria</a>
+    <a href="#contact" data-t="navContact">Contacto</a>
+    <small>FRANCESC BENACH · 2026</small>
+  </nav>
 </header>
-<div class="cinema" id="cinema" aria-hidden="true"><div id="world" class="world"></div><div class="world-fallback" aria-hidden="true"><div class="fallback-grid"></div><div class="fallback-disc"><i></i><b>FB / 01</b><span>HARDWARE<br>+ SOUL</span></div></div></div>
+
+<div class="cinema" id="cinema" aria-hidden="true">
+  <div class="cinema-overlay"></div>
+  <div id="world" class="world"></div>
+  <div class="world-fallback" aria-hidden="true">
+    <div class="fallback-grid"></div>
+    <div class="fallback-assembly">
+      <div class="fallback-layer fallback-rear"><span class="fallback-bolts">●　　　　●<br><br><br>●　　　　●</span></div>
+      <div class="fallback-layer fallback-pcb"><div class="fallback-traces"></div><div class="fallback-core">F / B<span>CTRL UNIT</span></div></div>
+      <div class="fallback-layer fallback-frame"><div class="fallback-frame-inner"></div></div>
+      <div class="fallback-layer fallback-optic"><div class="fallback-lens">F/B 01<div></div></div></div>
+    </div>
+  </div>
+</div>
+
 <main id="top">
-  <section class="hero" id="hero" aria-labelledby="heroTitle">
-    <div class="hero-edge" aria-hidden="true">01 / 06 — <span data-t="heroEdge">SISTEMAS EN MOVIMIENTO</span></div>
+  <section class="hero shell" id="hero" aria-labelledby="heroTitle">
+    <div class="hero-rail">
+      <span>01 / 07</span>
+      <span data-t="heroEdge">SISTEMAS EN MOVIMIENTO</span>
+    </div>
+
     <div class="hero-copy">
       <p class="eyebrow" data-t="heroLabel"><span class="eyebrow-line"></span> INGENIERÍA / PRODUCTO / PERSONAS</p>
       <h1 id="heroTitle" class="display"><span data-t="heroLine1">Las ideas</span><span data-t="heroLine2">se hacen</span><em data-t="heroLine3">reales.</em></h1>
       <p class="hero-intro" data-t="heroIntro">Soy Francesc Benach. Diseño electrónica, desarrollo sistemas y coordino proyectos para convertir problemas complejos en soluciones que funcionan.</p>
-      <div class="hero-actions"><a class="action action-dark" href="#work"><span data-t="explore">Explorar proyectos</span><span class="action-icon" aria-hidden="true">↗</span></a><a class="action-under" href="./files/Francesc_Benach_CV_ES.pdf" id="heroCv" download><span data-t="downloadCv">Descargar CV</span><span aria-hidden="true">↓</span></a></div>
+      <div class="hero-actions">
+        <a class="action action-dark" href="#assembly"><span data-t="seeInside">Explorar el despiece</span><span class="action-icon" aria-hidden="true">↘</span></a>
+        <a class="action action-ghost" href="#work"><span data-t="explore">Ver proyectos</span><span aria-hidden="true">↗</span></a>
+        <a class="action action-under" href="./files/Francesc_Benach_CV_ES.pdf" id="heroCv" download><span data-t="downloadCv">Descargar CV</span><span aria-hidden="true">↓</span></a>
+      </div>
     </div>
-    <div class="hero-bottom"><div class="hero-index"><span class="hero-index-num">F / B</span><span data-t="heroBottom">Electrónica · Sistemas · Dirección</span></div><a class="scroll-indicator" href="#manifesto"><span data-t="scroll">DESLIZA PARA DESCUBRIR</span><span class="scroll-line" aria-hidden="true"></span><span aria-hidden="true">↓</span></a></div>
-    <div class="hero-side-label" aria-hidden="true" data-t="heroSide">DISEÑADO CON CRITERIO / 2026</div>
+
+    <aside class="hero-data" aria-hidden="true">
+      <div class="hero-engineer-label"><span>FB — 001</span><span>PRODUCT / SYSTEMS</span></div>
+      <div class="hero-engineer-line"></div>
+      <div class="hero-microcopy"><span data-t="heroBottom">Electrónica · Sistemas · Dirección</span></div>
+    </aside>
+
+    <div class="hero-bottom">
+      <a class="scroll-indicator" href="#manifesto"><span data-t="scroll">DESLIZA PARA DESCUBRIR</span><span class="scroll-line" aria-hidden="true"></span><span aria-hidden="true">↓</span></a>
+      <div class="hero-side-label" data-t="heroSide">DISEÑADO CON CRITERIO / 2026</div>
+    </div>
   </section>
-  <section class="manifesto" id="manifesto" aria-labelledby="manifestoTitle">
-    <div class="section-meta"><span>02 / 06</span><span data-t="manifestoKicker">UNA FORMA DE PENSAR</span></div>
-    <div class="manifesto-layout"><div class="manifesto-offset" aria-hidden="true"><span>↓</span><small data-t="manifestoOffset">LA FORMA SIGUE A LA FUNCIÓN</small></div><div class="manifesto-copy"><p class="kicker kicker-light" data-t="manifestoLabel">NO SE TRATA SOLO DE TECNOLOGÍA</p><h2 id="manifestoTitle" class="large-heading"><span data-t="manifestoLine1">Pienso en</span><span data-t="manifestoLine2">todo el</span><em data-t="manifestoLine3">sistema.</em></h2><p class="manifesto-description" data-t="manifestoText">Una placa no existe aislada. Detrás hay usuarios, procesos, personas y decisiones. Mi trabajo consiste en conectar esas partes hasta que el conjunto tiene sentido.</p><div class="manifesto-notes"><span data-t="manifestoItem1">01 / DISEÑAR</span><span data-t="manifestoItem2">02 / CONSTRUIR</span><span data-t="manifestoItem3">03 / MEJORAR</span></div></div></div>
-    <span class="manifesto-foot" aria-hidden="true" data-t="manifestoFoot">OBSERVAR · PENSAR · HACER</span>
+
+  <section class="assembly" id="assembly" aria-labelledby="assemblyTitle">
+    <div class="assembly-stage">
+      <div class="assembly-grid" aria-hidden="true"></div>
+      <div class="assembly-copy shell">
+        <div class="assembly-topline"><span data-t="assemblyNumber">02 / EL DESPIECE</span><span data-t="assemblyScroll">SCROLL PARA EXPLORAR</span></div>
+        <div class="assembly-heading">
+          <p class="eyebrow" data-t="assemblyEyebrow">DISEÑO POR CAPAS / REQUISITOS REALES</p>
+          <h2 id="assemblyTitle"><span data-t="assemblyLine1">Lo que ves</span><em data-t="assemblyLine2">por dentro.</em></h2>
+          <p class="assembly-description" data-t="assemblyIntro">Carcasa, electrónica, mecánica y óptica. Separar cada elemento permite entender cómo funciona el conjunto.</p>
+        </div>
+        <div class="assembly-inspect">
+          <span class="assembly-inspect-title" data-t="assemblyControl">CONTROL DEL DESPIECE</span>
+          <div class="assembly-inspect-controls"><span data-t="assemblyClosed">MONTADO</span><input id="assemblyRange" type="range" min="0" max="100" value="0" step="1" aria-label="Porcentaje de separación de las piezas"><span data-t="assemblyOpen">EXPLOTADO</span></div>
+          <p class="assembly-progress-text"><span id="assemblyProgressText">0%</span><span data-t="assemblyHint">ARRASTRA O DESPLÁZATE</span></p>
+        </div>
+        <div class="assembly-features" aria-hidden="true"><div>01 <span data-t="assemblyPartOne">ENVOLVENTE</span></div><div>02 <span data-t="assemblyPartTwo">CIRCUITERÍA</span></div><div>03 <span data-t="assemblyPartThree">ELEMENTOS ÓPTICOS</span></div></div>
+      </div>
+      <a class="assembly-next" href="#manifesto" data-t="assemblyContinue">CONTINUAR ↓</a>
+    </div>
   </section>
-  <section class="about section-pad" id="about" aria-labelledby="aboutTitle">
-    <div class="section-meta section-meta-dark"><span>03 / 06</span><span data-t="aboutKicker">EL PERFIL</span></div>
-    <div class="about-grid"><div class="about-title"><p class="kicker" data-t="aboutLabel">NO ES UNA SOLA DISCIPLINA</p><h2 class="section-title" id="aboutTitle"><span data-t="aboutL1">Entre</span><span data-t="aboutL2">el detalle y</span><span class="serif" data-t="aboutL3">el conjunto.</span></h2><p class="about-body" data-t="aboutText">Ingeniero electrónico y responsable de proyectos. Combino firmware C++, diseño de hardware y sistemas embebidos con coordinación técnica, visión de producto y mejora continua de procesos.</p><a href="#career" class="inline-link"><span data-t="aboutLink">Conoce mi trayectoria</span><span>↗</span></a></div><div class="portrait-group"><div class="portrait-frame"><img src="./media/francesc-benach.webp" alt="Retrato de Francesc Benach Garcia" loading="lazy" width="768" height="768"><div class="photo-badge">F / B<br>01</div></div><div class="portrait-caption"><span data-t="portraitRole">INGENIERO ELECTRÓNICO / PROJECT MANAGER</span><span>SALOU · TARRAGONA</span></div></div></div>
-    <div class="disciplines"><div><span class="disciplines-num">01</span><h3 data-t="disc1">Hardware</h3><p data-t="disc1text">Del esquema eléctrico a la validación de producto.</p></div><div><span class="disciplines-num">02</span><h3 data-t="disc2">Software</h3><p data-t="disc2text">Firmware, interfaces y herramientas conectadas.</p></div><div><span class="disciplines-num">03</span><h3 data-t="disc3">Personas</h3><p data-t="disc3text">De los requisitos a la coordinación y entrega.</p></div></div>
+  <section class="manifesto shell" id="manifesto" aria-labelledby="manifestoTitle">
+    <div class="section-meta"><span>03 / 07</span><span data-t="manifestoKicker">UNA FORMA DE PENSAR</span></div>
+    <div class="manifesto-grid">
+      <div class="manifesto-copy">
+        <p class="kicker kicker-light" data-t="manifestoLabel">NO SE TRATA SOLO DE TECNOLOGÍA</p>
+        <h2 id="manifestoTitle" class="section-title mega"><span data-t="manifestoLine1">Pienso en</span><span data-t="manifestoLine2">todo el</span><em data-t="manifestoLine3">sistema.</em></h2>
+        <p class="manifesto-description" data-t="manifestoText">Una placa no existe aislada. Detrás hay usuarios, procesos, personas y decisiones. Mi trabajo consiste en conectar esas partes hasta que el conjunto tiene sentido.</p>
+      </div>
+      <div class="principles-panel">
+        <article class="principle-card"><span data-t="manifestoItem1">01 / DISEÑAR</span><p data-t="principleOne">Arquitectura, visión y decisiones con contexto.</p></article>
+        <article class="principle-card"><span data-t="manifestoItem2">02 / CONSTRUIR</span><p data-t="principleTwo">Del concepto a una solución comprobable y usable.</p></article>
+        <article class="principle-card"><span data-t="manifestoItem3">03 / MEJORAR</span><p data-t="principleThree">Iterar, validar y convertir fricción en claridad.</p></article>
+      </div>
+    </div>
+    <div class="metrics-strip" aria-hidden="true">
+      <div><strong>HW</strong><span data-t="metricOne">Electrónica aplicada</span></div>
+      <div><strong>FW</strong><span data-t="metricTwo">Sistemas embebidos</span></div>
+      <div><strong>PM</strong><span data-t="metricThree">Coordinación técnica</span></div>
+      <div><strong>DX</strong><span data-t="metricFour">Procesos y digitalización</span></div>
+    </div>
   </section>
-  <section class="work section-pad" id="work" aria-labelledby="workTitle"><div class="section-meta section-meta-dark"><span>04 / 06</span><span data-t="workKicker">PROYECTOS SELECCIONADOS</span></div><div class="work-heading"><div><p class="kicker" data-t="workLabel">LO QUE HAGO, HECHO VISIBLE</p><h2 class="section-title" id="workTitle"><span data-t="workLine1">El trabajo</span><span class="serif" data-t="workLine2">habla.</span></h2></div><p data-t="workLead">Una selección de sistemas, productos y herramientas donde la ingeniería se convierte en algo útil.</p></div><div class="work-filters" id="projectFilters" aria-label="Filtrar proyectos"><button class="filter is-active" type="button" data-filter="all" aria-pressed="true" ><span data-t="filterAll">Todos</span> <span>08</span></button><button class="filter" type="button" data-filter="product" aria-pressed="false" data-t="filterProduct">Producto</button><button class="filter" type="button" data-filter="digital" aria-pressed="false" data-t="filterDigital">Digital</button><button class="filter" type="button" data-filter="ai" aria-pressed="false" data-t="filterAI">IA aplicada</button></div><div class="project-grid" id="projectGrid" aria-live="polite"></div><div class="work-foot"><span data-t="workFoot">DE LA IDEA A LA REALIDAD. SIN ATAJOS.</span><span>F / B / 2026</span></div></section>
-  <section class="career section-pad" id="career" aria-labelledby="careerTitle"><div class="section-meta"><span>05 / 06</span><span data-t="careerKicker">TRAYECTORIA / EVOLUCIÓN</span></div><div class="career-head"><p class="kicker kicker-light" data-t="careerLabel">EXPERIENCIA</p><h2 class="section-title" id="careerTitle"><span data-t="careerL1">Siempre</span><span class="serif" data-t="careerL2">en marcha.</span></h2><p data-t="careerIntro">De diseñar circuitos a dirigir proyectos multidisciplinares. Cada etapa añade una capa nueva a la forma de construir.</p></div><div class="career-timeline" id="careerTimeline"></div><div class="education"><div class="education-heading"><span class="kicker kicker-light" data-t="educationLabel">FORMACIÓN CONTINUA</span><h3 data-t="educationTitle">Aprender para aplicar.</h3></div><div class="education-items" id="educationItems"></div></div></section>
-  <section class="contact" id="contact" aria-labelledby="contactTitle"><div class="section-meta section-meta-dark"><span>06 / 06</span><span data-t="contactKicker">SIGUIENTE CAPÍTULO</span></div><div class="contact-inner"><p class="kicker" data-t="contactLabel">¿TRABAJAMOS JUNTOS?</p><h2 id="contactTitle"><span data-t="contactL1">Hagamos</span><span><span data-t="contactL2">que pase</span><span class="contact-period">.</span></span></h2><p class="contact-description" data-t="contactText">Si tienes un reto técnico o un proyecto complejo, me interesa conocerlo.</p><a href="mailto:francescbg1@gmail.com" class="contact-cta"><span data-t="contactCta">Empecemos una conversación</span><span aria-hidden="true">↗</span></a></div><div class="contact-bottom"><div class="contact-badge" aria-hidden="true"><span>F</span><span>B</span><i>↗</i></div><div class="contact-links"><a href="mailto:francescbg1@gmail.com">EMAIL ↗</a><a href="https://www.linkedin.com/in/francesc-benach-garcia-b86391106" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a><a href="https://github.com/FrancescGiT" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a id="footerCv" href="./files/Francesc_Benach_CV_ES.pdf" download><span data-t="footerCv">CV ↓</span></a></div></div></section>
+
+  <section class="about shell section-pad" id="about" aria-labelledby="aboutTitle">
+    <div class="section-meta section-meta-dark"><span>04 / 07</span><span data-t="aboutKicker">EL PERFIL</span></div>
+    <div class="about-layout">
+      <div class="about-copy about-title">
+        <p class="kicker" data-t="aboutLabel">NO ES UNA SOLA DISCIPLINA</p>
+        <h2 class="section-title" id="aboutTitle"><span data-t="aboutL1">Entre</span><span data-t="aboutL2">el detalle y</span><span class="serif" data-t="aboutL3">el conjunto.</span></h2>
+        <p class="about-body" data-t="aboutText">Ingeniero electrónico y responsable de proyectos. Combino firmware C++, diseño de hardware y sistemas embebidos con coordinación técnica, visión de producto y mejora continua de procesos.</p>
+        <a href="#career" class="inline-link"><span data-t="aboutLink">Conoce mi trayectoria</span><span>↗</span></a>
+      </div>
+      <div class="portrait-group">
+        <div class="portrait-frame">
+          <img src="./media/francesc-benach.webp" alt="Retrato de Francesc Benach Garcia" loading="lazy" width="768" height="768">
+          <div class="photo-badge">F / B<br>01</div>
+        </div>
+        <div class="portrait-caption"><span data-t="portraitRole">INGENIERO ELECTRÓNICO / PROJECT MANAGER</span><span>REUS · TARRAGONA</span></div>
+      </div>
+      <div class="about-note-card">
+        <span class="meta-small">Approach</span>
+        <p data-t="aboutApproach">Diseño pensando tanto en el circuito como en la persona que lo usa, lo fabrica o lo mantiene.</p>
+      </div>
+    </div>
+    <div class="disciplines">
+      <div><span class="disciplines-num">01</span><h3 data-t="disc1">Hardware</h3><p data-t="disc1text">Del esquema eléctrico a la validación de producto.</p></div>
+      <div><span class="disciplines-num">02</span><h3 data-t="disc2">Software</h3><p data-t="disc2text">Firmware, interfaces y herramientas conectadas.</p></div>
+      <div><span class="disciplines-num">03</span><h3 data-t="disc3">Personas</h3><p data-t="disc3text">De los requisitos a la coordinación y entrega.</p></div>
+    </div>
+  </section>
+
+  <section class="work shell section-pad" id="work" aria-labelledby="workTitle">
+    <div class="section-meta section-meta-dark"><span>05 / 07</span><span data-t="workKicker">PROYECTOS SELECCIONADOS</span></div>
+    <div class="work-heading">
+      <div>
+        <p class="kicker" data-t="workLabel">LO QUE HAGO, HECHO VISIBLE</p>
+        <h2 class="section-title" id="workTitle"><span data-t="workLine1">El trabajo</span><span class="serif" data-t="workLine2">habla.</span></h2>
+      </div>
+      <p data-t="workLead">Una selección de sistemas, productos y herramientas donde la ingeniería se convierte en algo útil.</p>
+    </div>
+    <div class="work-filters" id="projectFilters" aria-label="Filtrar proyectos">
+      <button class="filter is-active" type="button" data-filter="all" aria-pressed="true" data-t="filterAll">Todos <span>08</span></button>
+      <button class="filter" type="button" data-filter="product" aria-pressed="false" data-t="filterProduct">Producto</button>
+      <button class="filter" type="button" data-filter="digital" aria-pressed="false" data-t="filterDigital">Digital</button>
+      <button class="filter" type="button" data-filter="ai" aria-pressed="false" data-t="filterAI">IA aplicada</button>
+    </div>
+    <div class="project-grid" id="projectGrid" aria-live="polite"></div>
+    <div class="work-foot"><span data-t="workFoot">DE LA IDEA A LA REALIDAD. SIN ATAJOS.</span><span>F / B / 2026</span></div>
+  </section>
+
+  <section class="career shell section-pad" id="career" aria-labelledby="careerTitle">
+    <div class="section-meta"><span>06 / 07</span><span data-t="careerKicker">TRAYECTORIA / EVOLUCIÓN</span></div>
+    <div class="career-head">
+      <p class="kicker kicker-light" data-t="careerLabel">EXPERIENCIA</p>
+      <h2 class="section-title" id="careerTitle"><span data-t="careerL1">Siempre</span><span class="serif" data-t="careerL2">en marcha.</span></h2>
+      <p data-t="careerIntro">De diseñar circuitos a dirigir proyectos multidisciplinares. Cada etapa añade una capa nueva a la forma de construir.</p>
+    </div>
+    <div class="career-timeline" id="careerTimeline"></div>
+    <div class="education">
+      <div class="education-heading"><span class="kicker kicker-light" data-t="educationLabel">FORMACIÓN CONTINUA</span><h3 data-t="educationTitle">Aprender para aplicar.</h3></div>
+      <div class="education-items" id="educationItems"></div>
+    </div>
+  </section>
+
+  <section class="contact shell" id="contact" aria-labelledby="contactTitle">
+    <div class="section-meta section-meta-dark"><span>07 / 07</span><span data-t="contactKicker">SIGUIENTE CAPÍTULO</span></div>
+    <div class="contact-panel">
+      <div class="contact-copy">
+        <p class="kicker" data-t="contactLabel">¿TRABAJAMOS JUNTOS?</p>
+        <h2 id="contactTitle"><span data-t="contactL1">Hagamos</span><span data-t="contactL2">que pase<span class="contact-period">.</span></span></h2>
+        <p class="contact-description" data-t="contactText">Si tienes un reto técnico o un proyecto complejo, me interesa conocerlo.</p>
+        <a href="mailto:francescbg1@gmail.com" class="contact-cta"><span data-t="contactCta">Empecemos una conversación</span><span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="contact-side">
+        <div class="contact-badge" aria-hidden="true"><span>F</span><span>B</span><i>↗</i></div>
+        <div class="contact-links">
+          <a href="mailto:francescbg1@gmail.com">EMAIL ↗</a>
+          <a href="https://www.linkedin.com/in/francesc-benach-garcia-b86391106" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
+          <a href="https://github.com/FrancescGiT" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+          <a id="footerCv" href="./files/Francesc_Benach_CV_ES.pdf" download><span data-t="footerCv">CV ↓</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
-<footer class="site-footer"><span>© 2026 FRANCESC BENACH GARCIA</span><span data-t="footerLocation">SALOU · TARRAGONA / ESPAÑA</span><a href="#top" data-t="backTop">VOLVER ARRIBA ↑</a></footer>
-<dialog id="projectDialog" class="project-dialog" aria-labelledby="dialogTitle"><button class="dialog-close" id="dialogClose" aria-label="Cerrar detalle" type="button">×</button><div class="dialog-visual" id="dialogVisual"></div><div class="dialog-info"><p class="kicker" id="dialogCategory"></p><h2 id="dialogTitle"></h2><p id="dialogDescription"></p><div class="dialog-stack" id="dialogTags"></div><p id="dialogOutcome" class="dialog-outcome"></p><button type="button" class="dialog-back" id="dialogBack" data-t="dialogBack">← Volver a proyectos</button></div></dialog>
+
+<footer class="site-footer shell"><span>© 2026 FRANCESC BENACH GARCIA</span><span data-t="footerLocation">SALOU · TARRAGONA / ESPAÑA</span><a href="#top" data-t="backTop">VOLVER ARRIBA ↑</a></footer>
+
+<dialog id="projectDialog" class="project-dialog" aria-labelledby="dialogTitle">
+  <button class="dialog-close" id="dialogClose" aria-label="Cerrar detalle" type="button">×</button>
+  <div class="dialog-visual" id="dialogVisual"></div>
+  <div class="dialog-info">
+    <p class="kicker" id="dialogCategory"></p>
+    <h2 id="dialogTitle"></h2>
+    <p id="dialogDescription"></p>
+    <div class="dialog-stack" id="dialogTags"></div>
+    <p id="dialogOutcome" class="dialog-outcome"></p>
+    <button type="button" class="dialog-back" id="dialogBack" data-t="dialogBack">← Volver a proyectos</button>
+  </div>
+</dialog>
 </body>
 </html>

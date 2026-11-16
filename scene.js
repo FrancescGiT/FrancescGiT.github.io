@@ -9,7 +9,7 @@ try {
   const THREE = await import('./vendor/three.module.js');
   if (disposed) throw new Error('Disposed before initialization');
   const renderer = new THREE.WebGLRenderer({antialias:window.innerWidth>800,alpha:true,powerPreference:'high-performance'});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth < 800?1.15:1.7));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth < 800?1.1:1.6));
   renderer.setClearColor(0x000000,0);
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
@@ -210,7 +210,7 @@ try {
   const pgeo=new THREE.BufferGeometry();pgeo.setAttribute('position',new THREE.Float32BufferAttribute(points,3));
   const particles=new THREE.Points(pgeo,new THREE.PointsMaterial({color:0x678783,size:.024,transparent:true,opacity:.48}));scene.add(particles);
 
-  const v={p:0,target:0,pointerX:0,pointerY:0,offsetX:0,offsetY:0};
+  const v={p:0,target:0,phase:0,phaseTarget:0,pointerX:0,pointerY:0,offsetX:0,offsetY:0};
   let rafActive=false,visible=true,last=0,width=0,height=0;
   const mobile=()=>window.innerWidth<700;
   function resize(){
@@ -218,62 +218,81 @@ try {
     renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
     if(!rafActive)draw();
   }
-  function targetFromScroll(scroll,h){
-    return THREE.MathUtils.clamp(scroll/Math.max(1,h),0,1.85);
-  }
   function onScroll(event){
-    v.target=prefersReducedMotion?0:targetFromScroll(event.detail.scroll,event.detail.heroHeight);
-    visible=!document.hidden&&event.detail.scroll<document.getElementById('about').offsetTop-window.innerHeight*.28;
-    if(prefersReducedMotion){v.p=v.target;if(visible)draw()}
+    const detail=event.detail;
+    const assembly=document.getElementById('assembly');
+    const start=detail.assemblyTop ?? assembly.offsetTop;
+    const travel=Math.max(1,detail.assemblyTravel ?? assembly.offsetHeight - window.innerHeight);
+    v.target=THREE.MathUtils.clamp((detail.scroll-start)/travel,0,1);
+    v.phaseTarget=THREE.MathUtils.clamp((detail.scroll-(start-window.innerHeight*.8))/(window.innerHeight*.8),0,1);
+    visible=!document.hidden&&detail.scroll < document.getElementById('manifesto').offsetTop + 40;
+    if(prefersReducedMotion){v.p=v.target;v.phase=v.phaseTarget;if(visible)draw()}
     else if(!visible)stop();else if(!rafActive)start();
+  }
+  function onInspect(event){
+    const p=THREE.MathUtils.clamp(Number(event.detail.progress)||0,0,1);
+    v.target=p;
+    v.phaseTarget=1;
+    visible=!document.hidden;
+    if(prefersReducedMotion){v.p=p;v.phase=1;draw()}
+    else if(!rafActive)start();
   }
   function onPointer(e){if(prefersReducedMotion||mobile())return;v.pointerX=(e.clientX/window.innerWidth-.5)*.2;v.pointerY=(e.clientY/window.innerHeight-.5)*.15}
   function draw(){
-    const s=THREE.MathUtils.smoothstep(v.p,.05,1.25);
-    const assemble=THREE.MathUtils.smoothstep(v.p,.17,.9);
-    const fadeOut=1-THREE.MathUtils.smoothstep(v.p,1.45,1.9);
-    const heroX=mobile()?0.0:3.15,storyX=mobile()?0.0:-3.0;
-    root.position.x=THREE.MathUtils.lerp(heroX,storyX,s);
-    root.position.y=THREE.MathUtils.lerp(mobile()?2.15:0, mobile()?2.5:-.18,s);
-    const scale=THREE.MathUtils.lerp(mobile()?.64:.82,mobile()?.63:.92,s)*fadeOut;
-    root.scale.setScalar(Math.max(.001,scale));
-    root.rotation.x=THREE.MathUtils.lerp(-.30,.15,s)+v.offsetY;
-    root.rotation.y=THREE.MathUtils.lerp(-.62,.33,s)+v.offsetX;
-    root.rotation.z=THREE.MathUtils.lerp(.12,-.13,s);
-    back.position.z=-assemble*1.75;
-    board.position.z=.13-assemble*.57;
-    frame.position.z=.72+assemble*.95;
-    lens.position.z=1.1+assemble*2.15;
-    lamps.position.z=.8+assemble*1.10;
-    fins.position.z=-.53-assemble*1.23;
-    orbitGroup.rotation.z=v.p*.10;
-    orbitGroup.position.x=THREE.MathUtils.lerp(heroX,storyX,s);
-    orbitGroup.position.y=mobile()?1.8:0;
-    orbitGroup.scale.setScalar(mobile()?.65:.84);
+    const assemble=THREE.MathUtils.smoothstep(v.p,0.03,.94);
+    const phase=THREE.MathUtils.smoothstep(v.phase,0,1);
+    const heroX=mobile()?0:3.3;
+    const storyX=mobile()?0:3.0;
+    root.position.x=THREE.MathUtils.lerp(heroX,storyX,phase);
+    root.position.y=THREE.MathUtils.lerp(mobile()?-3.10:-.18,mobile()?.72:-.15,phase);
+    root.scale.setScalar(THREE.MathUtils.lerp(mobile()?.53:.82,mobile()?.56:.91,phase));
+    root.rotation.x=THREE.MathUtils.lerp(-.19,.21,phase)+v.offsetY;
+    root.rotation.y=THREE.MathUtils.lerp(-.56,.50,phase)+v.offsetX;
+    root.rotation.z=THREE.MathUtils.lerp(.06,-.08,phase);
+    // Each component is independent: distinct translations expose the true depth.
+    back.position.set(-assemble*.7,-assemble*.18, -assemble*2.85);
+    board.position.set(-assemble*.23,assemble*.10, .13-assemble*.62);
+    frame.position.set(assemble*.25,assemble*.11, .72+assemble*1.55);
+    lens.position.set(assemble*.85,assemble*.16, 1.10+assemble*3.50);
+    lamps.position.set(assemble*.3,assemble*.3, .8+assemble*1.85);
+    fins.position.set(-assemble*.55,-assemble*.22,-.53-assemble*2.75);
+    orbitGroup.rotation.z=v.p*.14;
+    orbitGroup.position.x=THREE.MathUtils.lerp(heroX,storyX,phase);
+    orbitGroup.position.y=mobile()?-1.2:0;
+    orbitGroup.scale.setScalar(mobile()?.68:1);
     renderer.render(scene,camera);
+    window.portfolio3DState={ready:true,explosion:assemble,phase,webgl:true,parts:{back:back.position.z,pcb:board.position.z,frame:frame.position.z,lens:lens.position.z}};
   }
   function frameUpdate(now){
     if(!visible||disposed){rafActive=false;renderer.setAnimationLoop(null);return;}
     const dt=Math.min((now-last)/1000||0,.04);last=now;
     const k=1-Math.exp(-dt*3.3);
     v.p=THREE.MathUtils.lerp(v.p,v.target,k);
+    v.phase=THREE.MathUtils.lerp(v.phase,v.phaseTarget,k*1.45);
     v.offsetX=THREE.MathUtils.lerp(v.offsetX,v.pointerX,k*.7);
     v.offsetY=THREE.MathUtils.lerp(v.offsetY,v.pointerY,k*.7);
     draw();
   }
   function start(){if(rafActive||disposed||prefersReducedMotion)return;rafActive=true;last=performance.now();renderer.setAnimationLoop(frameUpdate)}
   function stop(){if(!rafActive)return;rafActive=false;renderer.setAnimationLoop(null)}
-  const onVisibility=()=>{visible=!document.hidden&&window.scrollY<document.getElementById('manifesto').offsetTop+document.getElementById('manifesto').offsetHeight;if(visible)start();else stop()};
+  const onVisibility=()=>{visible=!document.hidden&&window.scrollY<document.getElementById('manifesto').offsetTop+40;if(visible)start();else stop()};
   const observer=new ResizeObserver(resize);observer.observe(holder);
   window.addEventListener('portfolio-scroll',onScroll);
+  window.addEventListener('portfolio-inspect',onInspect);
   window.addEventListener('pointermove',onPointer,{passive:true});
   document.addEventListener('visibilitychange',onVisibility);
   renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();cinema.classList.remove('has-webgl');stop()});
+  resize();
+  const assembly=document.getElementById('assembly');
+  const startPos=assembly.offsetTop, travel=Math.max(1,assembly.offsetHeight-window.innerHeight);
+  v.target=THREE.MathUtils.clamp((window.scrollY-startPos)/travel,0,1);
+  v.phaseTarget=THREE.MathUtils.clamp((window.scrollY-(startPos-window.innerHeight*.8))/(window.innerHeight*.8),0,1);
+  v.p=v.target;v.phase=v.phaseTarget;draw();
   cinema.classList.add('has-webgl');
-  resize();v.target=prefersReducedMotion?0:targetFromScroll(window.scrollY,document.getElementById('hero').offsetHeight);v.p=v.target;draw();start();
+  start();
   window.disposePortfolioScene=()=>{
     if(disposed)return;disposed=true;stop();observer.disconnect();
-    window.removeEventListener('portfolio-scroll',onScroll);window.removeEventListener('pointermove',onPointer);
+    window.removeEventListener('portfolio-scroll',onScroll);window.removeEventListener('portfolio-inspect',onInspect);window.removeEventListener('pointermove',onPointer);
     document.removeEventListener('visibilitychange',onVisibility);
     scene.traverse(obj=>{if(obj.geometry)obj.geometry.dispose();const mats=Array.isArray(obj.material)?obj.material:[obj.material];mats.forEach(m=>{if(m){if(m.map)m.map.dispose();m.dispose()}})});
     renderer.dispose();renderer.domElement.remove();
@@ -281,4 +300,5 @@ try {
 } catch(error) {
   console.warn('La vista interactiva no está disponible. La web sigue siendo funcional.',error);
   cinema.classList.remove('has-webgl');
+  window.portfolio3DState={ready:false,webgl:false,error:String(error)};
 }
