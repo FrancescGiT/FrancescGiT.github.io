@@ -68,6 +68,7 @@ const English = {
   "¿Tienes un proyecto de producto electrónico, sistemas embebidos, dirección técnica o transformación digital? Conectemos.": "Working on an electronic product, embedded system, technical project or digital transformation? Let's talk.",
   "Escríbeme": "Get in touch",
   "Copiar correo": "Copy email",
+  "Copiar correo ⧉": "Copy email ⧉",
   "Correo copiado ✓": "Email copied ✓",
   "VOLVER ARRIBA ↑": "BACK TO TOP ↑",
   "CV EN ESPAÑOL ↓": "SPANISH RÉSUMÉ ↓",
@@ -122,7 +123,9 @@ const Spanish = {
   "02 — EXECUTION": "02 — EJECUCIÓN",
   "03 — EVOLUTION": "03 — EVOLUCIÓN",
   "EMBEDDED C++": "C++ EMBEBIDO",
-  "CV IN ENGLISH ↓": "CV EN INGLÉS ↓"
+  "CV IN ENGLISH ↓": "CV EN INGLÉS ↓",
+  "Email copied ✓": "Correo copiado ✓",
+  "Copy email ⧉": "Copiar correo ⧉"
 };
 const originalText = new WeakMap();
 const picker = document.getElementById("languagePicker");
@@ -170,6 +173,10 @@ function translatePage(lang) {
   if (description) description.content = lang === "en"
     ? "Francesc Benach Garcia. Electronic engineering, firmware, project management and digital transformation."
     : "Francesc Benach Garcia. Ingeniería electrónica, firmware, dirección de proyectos y transformación digital.";
+  const heroResume = document.querySelector(".hero .btn.secondary");
+  if (heroResume) heroResume.href = lang === "en" ? "./files/Francesc_Benach_CV_EN.pdf" : "./files/Francesc_Benach_CV_ES.pdf";
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = lang === "en" ? "Francesc Benach Garcia | Engineering and digital systems" : "Francesc Benach Garcia | Ingeniería y sistemas digitales";
   const og = document.querySelector('meta[property="og:description"]');
   if (og) og.content = lang === "en"
     ? "Electronic engineering, embedded systems, product development and digital transformation."
