@@ -1,38 +1,33 @@
 # Francesc Benach Garcia — Portfolio
 
-Web pública: https://francescgit.github.io/
+**Web:** https://francescgit.github.io/
 
-Portfolio cinematográfico bilingüe español/inglés con navegación por escenas, ocho proyectos originales, índice accesible y ficha profesional completa.
+Portfolio profesional basado en la estructura visual de la plantilla de referencia aportada por el propietario. La página presenta una portada editorial con avatar estilizado, galería horizontal reactiva al scroll, información profesional, especialidades, trayectoria, proyectos apilados y contacto.
 
-## Proyectos
+## Contenido
 
-1. Sistema multisensorial New Gen
-2. Gateway RF 868/915 MHz (prototipo)
-3. Transformación digital DOIT
-4. CRM / Jira Dashboard
-5. Packing List App
-6. Agentes operativos DOIT
-7. Lumina
-8. Herramientas Web Serial
+- 8 proyectos documentados en el portfolio original: New Gen multisensorial, Gateway RF 868/915, transformación digital DOIT, CRM/Jira, Packing List, agentes operativos DOIT, Lumina y herramientas Web Serial.
+- 5 etapas profesionales: MAETEL (2018), iDeeFe and Wits (2019), PoweredCub (2021), DOIT Multisensorial (2023) y transformación digital en DOIT (2026).
+- 3 entradas de formación y 5 áreas de especialización.
+- Selector español/inglés persistente, filtros funcionales, galerías de proyectos y formulario que prepara un correo local.
+- Fotografía auténtica y currículums originales conservados en `media/` y `files/`.
 
-## Trayectoria y formación
+## Identidad gráfica
 
-Cinco etapas documentadas desde 2018: MAETEL, iDeeFe and Wits, PoweredCub, DOIT Multisensorial y evolución hacia la transformación digital. Tres entradas de formación: Ingeniería Electrónica Industrial y Automática en la Universitat Rovira i Virgili, introducción a IA en BIG School y transformación digital en GDPYMES.
+El avatar utilizado en la portada es una **ilustración estilizada**, no un modelo 3D interactivo ni una fotografía literal. Se incluye como imagen WebP integrada en el documento HTML, sin URL externa. Las representaciones de proyectos son conceptuales y no muestran datos internos de clientes.
 
-Los CV anteriores se conservan en `files/Francesc_Benach_CV_ES.pdf` y `files/Francesc_Benach_CV_EN.pdf`. La fotografía profesional real del titular se encuentra en `media/francesc-benach.webp`.
+## Despliegue
 
-## Navegación y materiales
+GitHub Pages sirve `index.html` en `main`. El archivo incluye estilos, código JavaScript y avatar, por lo que no requiere npm, frameworks ni compilación para funcionar. Se mantiene la composición de la plantilla de referencia, adaptada a un despliegue estático.
 
-El usuario puede entrar al portátil y desplazarse entre casos con rueda, teclado, gestos y botones. El índice permite saltar a cualquiera de los ocho proyectos y la ficha profesional ofrece pestañas de experiencia, formación y competencias. ES/EN se guarda en el navegador.
+La fuente opcional de Google Fonts tiene alternativas de sistema. No se cargan scripts externos. Se respeta `prefers-reduced-motion`.
 
-Las pantallas de proyectos son ilustraciones y prototipos de interfaz, no capturas de datos reales. La escena principal del estudio es conceptual; la fotografía que acredita la identidad del titular es la del badge y de la ficha profesional.
+## Verificaciones
 
-`index.html` contiene CSS y JavaScript en línea. No requiere compilación. La transición original utiliza recursos externos, con una representación y animación alternativa cuando no están disponibles.
+Pruebas de Chromium a 1440 × 900, 768 × 1024, 390 × 844 y 320 × 700 sin errores JavaScript ni desbordamiento horizontal. Verificados selector ES/EN, ocho proyectos, filtros, cuadros de diálogo, contacto y rutas a ambos CV.
 
-## Copias
+## Copias de seguridad
 
-- `backup/portfolio-original-2026-11-16` — portfolio original antes de los rediseños
-- `backup/portfolio-before-laptop-dive-2026-11-16` — versión cinematográfica anterior
-- `backup/portfolio-laptop-dive-2026-11-16-before-expansion` — versión Laptop Dive de tres proyectos
-
-Conservar estas ramas para restauraciones.
+- `backup/portfolio-original-2026-11-16`: versión original previa a todos los rediseños
+- `backup/portfolio-expanded-before-jack-template-2026-11-16`: versión ampliada anterior a este diseño
+- Las otras ramas históricas del proyecto continúan disponibles
