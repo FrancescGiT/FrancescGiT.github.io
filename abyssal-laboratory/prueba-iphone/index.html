@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#04141c" />
-<title>Abyssal Laboratory V5.57.1 · PC + mando iPhone</title>
+<title>Abyssal Laboratory V5.57.3 · PC + mando iPhone</title>
 <style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;color:#ecf9f7;background:#04141c}
 *{box-sizing:border-box}html,body{height:100%;width:100%;padding:0;margin:0;overflow:hidden}
@@ -134,9 +134,9 @@ h1 em{font-weight:400;color:#c9fff1}
     sheet.hidden = true;
     sheet.innerHTML = `
       <section id="remote-card" role="dialog" aria-modal="true" aria-labelledby="remote-title">
-        <div class="flex"><span class="small">ABYSSAL / V5.57.1</span><button id="remote-close" aria-label="Cerrar panel">CERRAR</button></div>
+        <div class="flex"><span class="small">ABYSSAL / V5.57.3</span><button id="remote-close" aria-label="Cerrar panel">CERRAR</button></div>
         <h2 id="remote-title">Mando inalámbrico</h2>
-        <p>Escanea el QR con Safari o abre la página pública del mando e introduce el código de emparejamiento.</p>
+        <p>Escanea el QR o introduce el código en Safari. Al conectarse, el juego arrancará automáticamente. En el mando puedes alternar entre giroscopio y joystick táctil.</p>
         <div><span id="remote-led"></span><strong id="remote-state">Sin iniciar</strong></div>
         <img id="remote-qr" alt="Código QR con enlace HTTPS del mando" hidden>
         <p id="remote-code" class="small" style="font-size:17px;font-weight:800;letter-spacing:.16em" hidden></p>
@@ -243,7 +243,12 @@ h1 em{font-weight:400;color:#c9fff1}
               connected=true;neutral();
               const cam=options.getCamera();baseYaw=cam.yaw;basePitch=cam.pitch;
               state('iPhone conectado · controles activos',true);
-              conn.send({type:'hello',version:'5.57'});
+              conn.send({type:'hello',version:'5.57.3'});
+              // The PC must transition from pairing UI to the playable world.
+              // A reconnection reuses the running game without rebuilding it.
+              closeDialog();
+              try { options.onConnected?.(); }
+              catch(error) { console.error('Error al iniciar el juego tras emparejar',error); }
               showHUD();
             });
             conn.on('data',data=>{if(conn===candidate)handlePacket(data);});
@@ -277,10 +282,19 @@ h1 em{font-weight:400;color:#c9fff1}
         pitch:pitch+(clamp(basePitch+dpitch,-1.48,1.48)-pitch)*k};
     }
     function onPoseChanged(yaw,pitch) {baseYaw=yaw-dyaw;basePitch=pitch-dpitch;}
+    function gameStatus(phase,message='') {
+      if(!conn?.open)return;
+      try {conn.send({type:'game-status',phase,message});}
+      catch(error){console.warn('No se pudo comunicar estado del juego al mando',error);}
+    }
     ui.openMenu.addEventListener('click',openDialog);
     ui.hud.addEventListener('click',openDialog);
     ui.close.addEventListener('click',closeDialog);
-    ui.openButton.addEventListener('click',start);
+    ui.openButton.addEventListener('click',()=>{
+      // A real PC click unlocks WebAudio before the asynchronous mobile handshake.
+      options.prepareAudio?.();
+      void start();
+    });
     ui.stopButton.addEventListener('click',stop);
     ui.copyButton.addEventListener('click',async()=>{
       if(!roomUrl)return;
@@ -288,7 +302,7 @@ h1 em{font-weight:400;color:#c9fff1}
       catch {state('Selecciona el enlace para copiarlo manualmente.',connected);}
     });
     window.addEventListener('pagehide',stop);
-    return {getMovement,applyOrientation,onPoseChanged,isDialogOpen:dialogOpen,showHUD};
+    return {getMovement,applyOrientation,onPoseChanged,isDialogOpen:dialogOpen,showHUD,gameStatus};
   }
   window.AbyssRemotePC={create};
 })();
@@ -8279,7 +8293,24 @@ const AbyssCollisionWorld=(()=>{
   // Optional PeerJS DataChannel controller, isolated from rendering and collisions.
   const remote=window.AbyssRemotePC?.create({
     getCamera:()=>({yaw,pitch}),
-    isGameStarted:()=>!menuOpen&&ready
+    isGameStarted:()=>!menuOpen&&ready,
+    // Invoked on initial WebRTC connection and after a later reconnect.
+    onConnected:()=>{
+      if(ready){
+        remote?.gameStatus('ready');
+        notify('IPHONE RECONECTADO · PARTIDA CONSERVADA');
+        return;
+      }
+      if(!starting)void launch({fromRemote:true});
+      else remote?.gameStatus('loading');
+    },
+    prepareAudio:()=>{
+      // Click on GENERAR CONEXIÓN is a trusted user gesture on the PC.
+      // Without it, Safari/Chrome may block automatic audio after WebRTC connects.
+      if(!navigator.gpu||!isSecureContext||audio)return;
+      try {startAudio();audio.ctx.resume().catch(error=>console.warn('Audio remoto',error));}
+      catch(error){console.warn('Preactivación de audio',error);}
+    }
   });
   const setStatus=(message,percent)=>{loadMsg.textContent=message;
     status.textContent=message;if(percent!==undefined)loadBar.style.width=`${percent}%`;};
@@ -8524,6 +8555,7 @@ const AbyssCollisionWorld=(()=>{
     return output;
   }
   function presentError(error){
+    remote?.gameStatus('error',String(error?.message||error));
     if(document.pointerLockElement===canvas)document.exitPointerLock();
     soundOn=false;updateAudioHint();
     if(audio){
@@ -8668,25 +8700,28 @@ const AbyssCollisionWorld=(()=>{
   function lockPointer(){if(matchMedia('(pointer:coarse)').matches)return;
     try{canvas.requestPointerLock?.()?.catch?.(()=>{});}catch{}}
   function clearInput(){keys.clear();dragging=false;touchRef=null;}
-  async function launch(){
+  async function launch({fromRemote=false}={}){
     if(starting||ready)return;
     starting=true;quality=selectedQuality();profile=AbyssQuality[quality];
     diagnostic.quality=quality;diagnostic.backend='loading';
     settings.shafts=profile.raySteps>0;settings.bloom=profile.bloomLevels>0;
     try{localStorage.setItem(savedQualityKey,quality);}catch{}
     menu.hidden=true;loading.hidden=false;
-    if(navigator.gpu&&isSecureContext){
+    remote?.gameStatus('loading');
+    // Pointer lock is never requested from a WebRTC callback: it requires a PC gesture.
+    if(navigator.gpu&&isSecureContext&&!fromRemote){
       lockPointer();
-      try{startAudio();audio.ctx.resume().catch(()=>{});}catch{}
+      try{if(!audio)startAudio();audio?.ctx.resume().catch(()=>{});}catch{}
     }
     try{
       await buildWorld();
       menuOpen=false;
       remote?.showHUD();
+      remote?.gameStatus('ready');
       setAudioEnabled(true);
     }catch(error){presentError(error);}
   }
-  $('dive').addEventListener('click',launch);
+  $('dive').addEventListener('click',()=>{void launch();});
   window.addEventListener('keydown',event=>{
     if(menuOpen&&event.code==='Enter'&&!event.repeat&&event.target.tagName!=='INPUT'){
       event.preventDefault();launch();return;
@@ -8722,7 +8757,10 @@ const AbyssCollisionWorld=(()=>{
     wasLocked=locked;
   });
   canvas.addEventListener('click',()=>{
-    if(!menuOpen&&document.pointerLockElement!==canvas)lockPointer();});
+    if(menuOpen)return;
+    // Recovery if the browser did not preserve the audio permission during pairing.
+    if(soundOn&&audio?.ctx.state==='suspended')audio.ctx.resume().catch(()=>{});
+    if(document.pointerLockElement!==canvas)lockPointer();});
   const moveMouse=(dx,dy)=>{yaw+=dx*.0023;pitch=clamp(pitch-dy*.0023,-1.48,1.48);};
   window.addEventListener('mousemove',event=>{
     if(menuOpen)return;
