@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#061b23">
-<title>Abyssal Remote V5.57 · Mando iPhone</title>
+<title>Abyssal Remote V5.57.1 · Mando iPhone</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#061b23;color:#e8fef9;-webkit-tap-highlight-color:transparent}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#061b23}body{overflow-x:hidden;overscroll-behavior:none;touch-action:pan-y}
@@ -14,6 +14,12 @@ h1{font:italic 500 clamp(30px,8vw,41px)/.95 Georgia,serif;letter-spacing:-.04em;
 .dot{display:block;width:8px;height:8px;background:#e89b73;border-radius:100%;box-shadow:0 0 12px #bd5f42}.dot.connected{background:#74ecaa;box-shadow:0 0 12px #57e7a6}
 .details{padding:12px 14px;background:#092a35;border:1px solid #35636a;display:grid;gap:5px;border-radius:6px;font-size:12px;color:#b4d5d4}
 .details b{color:#e9fff9}.details small{font-size:11px;color:#8eb7b5}.details .number{font-variant-numeric:tabular-nums}
+.manual{display:grid;gap:8px;padding:12px;background:#0b313d;border:1px solid #478c8a;border-radius:8px}
+.manual label{font-size:12px;font-weight:700;color:#d1eee5}
+.manual-row{display:flex;gap:8px}
+.manual input{flex:1;min-width:0;border:1px solid #51968f;border-radius:6px;background:#051c24;color:#fff;padding:12px;font-size:18px;letter-spacing:.10em;text-transform:uppercase}
+.manual button{border:0;border-radius:6px;background:#c9f9e9;color:#052b32;font-weight:800;padding:12px}
+.manual[hidden]{display:none}
 .sensor{display:flex;gap:10px;flex-direction:column}.sensor button,.actions button{border:1px solid #88cfc173;background:#123b47;color:#f1fff9;border-radius:7px;padding:14px 10px;font-size:12px;letter-spacing:.08em;font-weight:750;cursor:pointer}.sensor .primary{background:#e2fff5;color:#073138;border:1px solid #e2fff5}
 .sensor button:disabled{opacity:.55}.hint{font-size:12px;line-height:1.5;color:#a7c9c8;margin:0}
 .orientation{background:radial-gradient(ellipse at center,#0e5261 0%,#0b313d 60%,#06242d 100%);border:1px solid #397985;border-radius:12px;min-height:125px;display:grid;place-items:center;position:relative;overflow:hidden}
@@ -49,6 +55,11 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
     <div><b>Sensores:</b> <span id="sensor-detail">Pendientes de permiso</span></div>
     <small id="ping-detail">Latencia: -- ms</small>
   </section>
+  <section class="manual" id="manual-pair" hidden>
+    <label for="manual-code">Introduce el código de 12 caracteres que aparece en el PC</label>
+    <div class="manual-row"><input id="manual-code" maxlength="16" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="A1B2C3D4E5F6" aria-label="Código del PC"><button id="manual-connect" type="button">CONECTAR</button></div>
+    <small id="manual-error" role="status"></small>
+  </section>
   <section class="sensor">
     <button id="enable-sensors" class="primary" type="button">ACTIVAR GIROSCOPIO</button>
     <button id="recenter" type="button" disabled>RECENTRAR ORIENTACIÓN</button>
@@ -73,7 +84,7 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const room = new URLSearchParams(location.search).get('room') || '';
+  const room = (new URLSearchParams(location.search).get('room') || '').toLowerCase();
   const buttons = {forward:false,back:false,up:false,down:false,boost:false};
   let peer=null,conn=null,ready=false,enabled=false,haveSample=false,startedAt=0;
   let seq=0,rawYaw=0,unwrappedYaw=0,previousYaw=null,rawPitch=0;
@@ -171,9 +182,13 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
     el.addEventListener('contextmenu',e=>e.preventDefault());
   }
   function attachPeer(){
-    if(!room||!/^abyss-[0-9a-f]{32}$/.test(room)){
-      status('Sin código válido');$('connection-detail').textContent='Escanea el QR mostrado en el PC.';return;
+    if(!/^abyss-(?:[0-9a-f]{12}|[0-9a-f]{32})$/.test(room)){
+      $('manual-pair').hidden=false;
+      status('Código pendiente');
+      $('connection-detail').textContent='Escribe el código que aparece en el juego del PC.';
+      return;
     }
+    $('manual-pair').hidden=true;
     if(typeof window.Peer!=='function'){
       status('Error de librería');$('connection-detail').textContent='No carga PeerJS; comprueba Internet y recarga.';return;
     }
@@ -194,6 +209,16 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
     peer.on('error',error=>{status('Error de conexión');$('connection-detail').textContent=String(error?.type||error?.message||error);});
     peer.on('disconnected',()=>{if(!ready)status('Servidor desconectado');});
   }
+  function manualConnect(){
+    const code=$('manual-code').value.replace(/[\s-]/g,'').trim().toLowerCase();
+    if(!/^[0-9a-f]{12}$/.test(code)){
+      $('manual-error').textContent='Introduce exactamente los 12 caracteres hexadecimales del PC.';
+      return;
+    }
+    location.assign(location.pathname+'?room=abyss-'+encodeURIComponent(code));
+  }
+  $('manual-connect').addEventListener('click',manualConnect);
+  $('manual-code').addEventListener('keydown',e=>{if(e.key==='Enter')manualConnect();});
   $('enable-sensors').addEventListener('click',activateSensors);
   $('recenter').addEventListener('click',()=>recenter(true));
   $('help').addEventListener('click',()=>alert('1. PC: genera el QR y mantenlo abierto.\n2. iPhone: activa el giroscopio y acepta el permiso.\n3. Apunta el móvil al frente, pulsa RECENTRAR.\n4. Mueve el iPhone para mirar, mantén AVANZAR para nadar.'));
