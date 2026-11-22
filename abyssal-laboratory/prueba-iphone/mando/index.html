@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#061b23">
-<title>Abyssal Remote V5.57.1 · Mando iPhone</title>
+<title>Abyssal Remote V5.57.3 · Mando iPhone</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#061b23;color:#e8fef9;-webkit-tap-highlight-color:transparent}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#061b23}body{overflow-x:hidden;overscroll-behavior:none;touch-action:pan-y}
@@ -22,24 +22,35 @@ h1{font:italic 500 clamp(30px,8vw,41px)/.95 Georgia,serif;letter-spacing:-.04em;
 .manual[hidden]{display:none}
 .sensor{display:flex;gap:10px;flex-direction:column}.sensor button,.actions button{border:1px solid #88cfc173;background:#123b47;color:#f1fff9;border-radius:7px;padding:14px 10px;font-size:12px;letter-spacing:.08em;font-weight:750;cursor:pointer}.sensor .primary{background:#e2fff5;color:#073138;border:1px solid #e2fff5}
 .sensor button:disabled{opacity:.55}.hint{font-size:12px;line-height:1.5;color:#a7c9c8;margin:0}
-.orientation{background:radial-gradient(ellipse at center,#0e5261 0%,#0b313d 60%,#06242d 100%);border:1px solid #397985;border-radius:12px;min-height:125px;display:grid;place-items:center;position:relative;overflow:hidden}
-.orientation:before,.orientation:after{content:"";position:absolute;border:1px solid #2b7380;border-radius:100%;width:130px;height:130px}.orientation:after{width:70px;height:70px}.crosshair{z-index:1;display:grid;place-items:center;gap:5px;text-align:center}.crosshair span{font-size:24px;color:#e9fff8}.crosshair small{font-size:11px;color:#c6e6df;letter-spacing:.08em}
+.orientation{background:radial-gradient(ellipse at center,#0e5261 0%,#0b313d 60%,#06242d 100%);border:1px solid #397985;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px 12px;min-height:200px;position:relative}
+.mode-select{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;max-width:330px}
+.mode-select button{padding:8px 6px;border:1px solid #3a7f80;border-radius:6px;background:#092b36;color:#b4d5d5;letter-spacing:.08em;font:800 10px ui-sans-serif,system-ui;cursor:pointer}
+.mode-select button.selected{color:#062d35;background:#c3f2e3;border-color:#c3f2e3}
+.mode-select button:focus-visible,.joystick-pad:focus-visible{outline:2px solid #eafff1;outline-offset:3px}
+.joystick-pad{height:138px;width:138px;max-width:100%;aspect-ratio:1;border-radius:50%;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;flex-shrink:0;box-shadow:inset 0 0 0 1px #64b9af90,inset 0 0 24px #031c2a99,0 4px 16px #01192366;background:radial-gradient(circle at center,#235b68 0%,#12414d 45%,#082b37 80%)}
+.joystick-pad:before{content:"";position:absolute;inset:18%;border:1px solid #78c1b75c;border-radius:50%;pointer-events:none}
+.joystick-pad:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent calc(50% - .5px),#6aaea748 50%,transparent calc(50% + .5px)),linear-gradient(0deg,transparent calc(50% - .5px),#6aaea748 50%,transparent calc(50% + .5px))}
+.joystick-pad:active{cursor:grabbing}
+.joystick-pad.inactive{opacity:.34;cursor:default}
+.joystick-thumb{pointer-events:none;position:absolute;left:50%;top:50%;height:50px;width:50px;margin:-25px 0 0 -25px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#e2fff5,#8bdcca 82%);border:2px solid #b9f4e9;box-shadow:0 5px 20px #011e2db3,inset 0 2px 6px #fff7;transform:translate(0px,0px);will-change:transform;z-index:1}
+.thumb-dot{width:8px;height:8px;background:#296b70;border-radius:50%;opacity:.75}
+.orientation-status{font:750 10px ui-sans-serif,system-ui;letter-spacing:.065em;color:#c8e9e1;text-align:center;min-height:15px}
 .actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .actions button{font-size:11px;min-height:61px;touch-action:none;user-select:none;-webkit-user-select:none}.actions button.down{background:#2e7266;border-color:#8ce8c4;transform:scale(.985)}
 .forward{margin-top:auto;min-height:128px;width:100%;font-size:17px;letter-spacing:.15em;font-weight:850;touch-action:none;user-select:none;-webkit-user-select:none;background:#d8fff0;color:#052c35;border:0;border-radius:11px;box-shadow:0 10px 28px #1ca98a20}
 .forward.down{background:#7fe3c0;transform:scale(.992)}
 .debug{color:#739c9e;font:11px/1.45 ui-monospace,Consolas,monospace;min-height:30px}
 footer{text-align:center;color:#8bb5b5;font:11px/1.4 ui-sans-serif,system-ui;padding-top:2px}
-@media(min-height:1000px){.orientation{min-height:175px}.app{gap:22px}.forward{min-height:155px}}
+@media(min-height:1000px){.orientation{min-height:224px}.joystick-pad{height:158px;width:158px}.app{gap:22px}.forward{min-height:155px}}
 @media(max-height:920px){
 .app{gap:11px;padding-top:max(13px,env(safe-area-inset-top));padding-bottom:max(10px,env(safe-area-inset-bottom))}
 h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
 .sensor{gap:7px}.sensor button{padding:10px 9px}.hint{font-size:11px;line-height:1.35}
-.orientation{min-height:95px}.orientation:before{width:100px;height:100px}.orientation:after{width:56px;height:56px}
+.orientation{min-height:186px;gap:6px;padding:8px}.joystick-pad{height:126px;width:126px}.mode-select button{padding:7px 5px}
 .actions button{min-height:46px;padding:7px 6px;font-size:10px}
 .forward{min-height:94px;font-size:15px}.debug{min-height:18px;font-size:10px}footer{display:none}
 }
-@media(max-height:710px){.orientation{min-height:64px}.hint{display:none}.forward{min-height:75px}}
+@media(max-height:710px){.orientation{min-height:155px}.joystick-pad{height:104px;width:104px}.joystick-thumb{width:42px;height:42px;margin:-21px 0 0 -21px}.hint{display:none}.forward{min-height:75px}}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
@@ -63,10 +74,17 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
   <section class="sensor">
     <button id="enable-sensors" class="primary" type="button">ACTIVAR GIROSCOPIO</button>
     <button id="recenter" type="button" disabled>RECENTRAR ORIENTACIÓN</button>
-    <p class="hint">Sujeta el iPhone vertical, mirando a la pantalla. Pulsa Activar y después Recentrar. Gíralo para mirar a tu alrededor.</p>
+    <p class="hint">Elige JOYSTICK para mirar arrastrando el círculo. Si prefieres mover el iPhone, activa GIROSCOPIO y luego RECENTRAR.</p>
   </section>
-  <section class="orientation" aria-label="Orientación detectada">
-    <div class="crosshair"><span>⊕</span><small id="orient-label">ESPERANDO SENSORES</small></div>
+  <section class="orientation" aria-label="Control de orientación">
+    <div class="mode-select" role="group" aria-label="Modo de orientación">
+      <button id="mode-gyro" type="button" aria-pressed="false">GIROSCOPIO</button>
+      <button id="mode-joystick" type="button" aria-pressed="true" class="selected">JOYSTICK</button>
+    </div>
+    <div class="joystick-pad" id="joystick-pad" role="group" aria-label="Joystick para girar la cámara. Arrastra arriba, abajo, izquierda o derecha" tabindex="0">
+      <span class="joystick-thumb" id="joystick-thumb" aria-hidden="true"><span class="thumb-dot"></span></span>
+    </div>
+    <div class="orientation-status" id="orient-label">JOYSTICK ACTIVO · ARRASTRA PARA MIRAR</div>
   </section>
   <div class="actions">
     <button id="back" type="button">RETROCEDER</button>
@@ -89,6 +107,11 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
   let peer=null,conn=null,ready=false,enabled=false,haveSample=false,startedAt=0;
   let seq=0,rawYaw=0,unwrappedYaw=0,previousYaw=null,rawPitch=0;
   let zeroYaw=0,zeroPitch=0,lastSensorAt=0,latency=null;
+  // Joystick and gyroscope are mutually exclusive; no stale sensor sample can
+  // override a manually positioned camera after switching modes.
+  let mode='joystick',manualYaw=0,manualPitch=0,joyX=0,joyY=0;
+  let joyPointer=null,lastJoyTick=performance.now();
+  const JOY_YAW_SPEED=2.3,JOY_PITCH_SPEED=1.6;
   const rad = Math.PI/180;
   const status = (message,good=false) => { $('state').textContent=message;$('dot').classList.toggle('connected',good); };
   const sensorStatus = message => {$('sensor-detail').textContent=message;};
@@ -136,26 +159,101 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
     rawPitch=Math.atan2(f.fy,horiz);
     lastSensorAt=performance.now();haveSample=true;
     sensorStatus('Datos recibidos correctamente');
-    if(!enabled)return;
-    $('orient-label').textContent='GIROSCOPIO ACTIVO';
-    $('debug').textContent=`Rotación: ${((unwrappedYaw-zeroYaw)/rad).toFixed(1)}° · Inclinación: ${((rawPitch-zeroPitch)/rad).toFixed(1)}°`;
+    if(!enabled||mode!=='gyro')return;
+    $('orient-label').textContent='GIROSCOPIO ACTIVO · RECENTRAR SI SE DESVÍA';
+    $('debug').textContent=`Giro: ${((unwrappedYaw-zeroYaw)/rad).toFixed(1)}° · Inclinación: ${((rawPitch-zeroPitch)/rad).toFixed(1)}°`;
     if(!startedAt){startedAt=performance.now();recenter(false);}
   }
   function send(msg) {if(conn?.open){try{conn.send(msg);}catch(err){console.warn('Envío remoto',err);}}}
+  function advanceJoystick() {
+    const t=performance.now();
+    const dt=Math.max(0,Math.min((t-lastJoyTick)/1000,.065));lastJoyTick=t;
+    if(mode!=='joystick'||!ready||document.hidden||!dt)return;
+    manualYaw+=joyX*JOY_YAW_SPEED*dt;
+    manualPitch=Math.max(-2.8,Math.min(2.8,manualPitch-joyY*JOY_PITCH_SPEED*dt));
+  }
   function sendInput() {
+    advanceJoystick();
     const alive=enabled&&haveSample&&performance.now()-lastSensorAt<1200;
-    send({type:'input',seq:++seq,yaw:alive?unwrappedYaw-zeroYaw:0,
-      pitch:alive?rawPitch-zeroPitch:0,buttons:{...buttons}});
+    const yaw=mode==='joystick'?manualYaw:alive?unwrappedYaw-zeroYaw:0;
+    const pitch=mode==='joystick'?manualPitch:alive?rawPitch-zeroPitch:0;
+    send({type:'input',seq:++seq,yaw,pitch,buttons:{...buttons}});
+    if(mode==='joystick')$('debug').textContent=`Joystick · Giro: ${(manualYaw/rad).toFixed(0)}° · Inclinación: ${(manualPitch/rad).toFixed(0)}°`;
   }
   function recenter(notifyPC=true) {
-    if(!haveSample)return;
+    if(!haveSample||mode!=='gyro')return;
     zeroYaw=unwrappedYaw;zeroPitch=rawPitch;
-    $('debug').textContent='Rotación: 0.0° · Inclinación: 0.0°';
+    $('debug').textContent='Giro: 0.0° · Inclinación: 0.0°';
     if(notifyPC)send({type:'center'});
     sendInput();
   }
+  function releaseJoystick() {
+    joyPointer=null;joyX=0;joyY=0;
+    $('joystick-thumb').style.transform='translate(0px,0px)';
+    $('joystick-pad').classList.remove('engaged');
+  }
+  function setMode(next) {
+    if(next!=='joystick'&&next!=='gyro')return;
+    if(next==='gyro'&&!enabled)return;
+    if(mode===next)return;
+    // Capture the current PC camera as the new base. Joystick and gyro then
+    // start at zero offsets: no sudden jump when changing modes.
+    advanceJoystick();
+    mode=next;manualYaw=0;manualPitch=0;releaseJoystick();
+    lastJoyTick=performance.now();
+    if(next==='gyro'&&haveSample){zeroYaw=unwrappedYaw;zeroPitch=rawPitch;startedAt=performance.now();}
+    if(next==='gyro'&&!haveSample)startedAt=0;
+    $('mode-gyro').classList.toggle('selected',next==='gyro');
+    $('mode-joystick').classList.toggle('selected',next==='joystick');
+    $('mode-gyro').setAttribute('aria-pressed',String(next==='gyro'));
+    $('mode-joystick').setAttribute('aria-pressed',String(next==='joystick'));
+    $('joystick-pad').classList.toggle('inactive',next==='gyro');
+    $('joystick-pad').setAttribute('aria-disabled',String(next==='gyro'));
+    $('recenter').disabled=next!=='gyro'||!enabled;
+    $('orient-label').textContent=next==='gyro'?'GIROSCOPIO ACTIVO · RECENTRAR SI SE DESVÍA':'JOYSTICK ACTIVO · ARRASTRA PARA MIRAR';
+    send({type:'center'});
+    sendInput();
+  }
+  function updateJoystick(e) {
+    const pad=$('joystick-pad'),r=pad.getBoundingClientRect();
+    const max=Math.max(1,Math.min(r.width,r.height)/2-27);
+    let x=(e.clientX-(r.left+r.width/2))/max;
+    let y=(e.clientY-(r.top+r.height/2))/max;
+    const length=Math.hypot(x,y);
+    if(length>1){x/=length;y/=length;}
+    const magnitude=Math.hypot(x,y);
+    const adjusted=magnitude<.08?0:(magnitude-.08)/.92;
+    joyX=x*adjusted/(magnitude||1);
+    joyY=y*adjusted/(magnitude||1);
+    $('joystick-thumb').style.transform=`translate(${(x*max).toFixed(1)}px,${(y*max).toFixed(1)}px)`;
+  }
+  function installJoystick() {
+    const pad=$('joystick-pad');
+    pad.addEventListener('pointerdown',e=>{
+      if(mode!=='joystick'||joyPointer!==null)return;
+      e.preventDefault();
+      joyPointer=e.pointerId;
+      pad.setPointerCapture?.(e.pointerId);
+      updateJoystick(e);
+      pad.classList.add('engaged');
+    });
+    pad.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();updateJoystick(e);}});
+    const release=e=>{if(e.pointerId===joyPointer){e.preventDefault();releaseJoystick();sendInput();}};
+    for(const type of ['pointerup','pointercancel','lostpointercapture'])pad.addEventListener(type,release);
+    pad.addEventListener('contextmenu',e=>e.preventDefault());
+    pad.addEventListener('keydown',e=>{
+      if(mode!=='joystick')return;
+      const step=(e.shiftKey?8:3)*rad;
+      if(e.key==='ArrowLeft'){manualYaw-=step;e.preventDefault();}
+      else if(e.key==='ArrowRight'){manualYaw+=step;e.preventDefault();}
+      else if(e.key==='ArrowUp'){manualPitch=Math.min(2.8,manualPitch+step);e.preventDefault();}
+      else if(e.key==='ArrowDown'){manualPitch=Math.max(-2.8,manualPitch-step);e.preventDefault();}
+      else return;
+      sendInput();
+    });
+  }
   async function activateSensors() {
-    if(enabled)return;
+    if(enabled){setMode('gyro');return;}
     try{
       // Must be called directly from a user gesture on iOS Safari.
       if(!window.DeviceOrientationEvent)throw Error('DeviceOrientation no disponible en este navegador.');
@@ -165,15 +263,14 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
       }
       window.addEventListener('deviceorientation',orientation,{passive:true});
       enabled=true;
-      $('enable-sensors').textContent='GIROSCOPIO ACTIVADO';
-      $('enable-sensors').disabled=true;
-      $('recenter').disabled=false;
+      $('enable-sensors').textContent='USAR GIROSCOPIO';
+      setMode('gyro');
       sensorStatus('Permiso concedido. Esperando la primera lectura...');
       setTimeout(()=>{if(!haveSample)sensorStatus('Sin datos. Comprueba Safari y permisos de movimiento.');},2500);
       if(navigator.wakeLock?.request)navigator.wakeLock.request('screen').catch(()=>{});
     }catch(err){sensorStatus(err?.message||String(err));}
   }
-  function clearButtons(){for(const k in buttons){buttons[k]=false;$(k).classList.remove('down');}sendInput();}
+  function clearButtons(){releaseJoystick();for(const k in buttons){buttons[k]=false;$(k).classList.remove('down');}sendInput();}
   function attachPress(id){
     const el=$(id);if(!el)return;
     el.addEventListener('pointerdown',e=>{e.preventDefault();if(e.pointerId!==undefined)el.setPointerCapture?.(e.pointerId);buttons[id]=true;el.classList.add('down');sendInput();});
@@ -196,12 +293,17 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
     peer=new Peer(undefined,{debug:1});
     peer.on('open',()=>{
       conn=peer.connect(room,{metadata:{app:'abyssal-remote-v1'},serialization:'json',reliable:false});
-      conn.on('open',()=>{ready=true;status('Conectado al PC',true);$('connection-detail').textContent='Conexión WebRTC activa';recenter(false);sendInput();});
+      conn.on('open',()=>{ready=true;status('Conectado al PC',true);$('connection-detail').textContent='Conexión WebRTC activa';if(mode==='gyro')recenter(false);manualYaw=manualPitch=0;releaseJoystick();lastJoyTick=performance.now();sendInput();});
       conn.on('data',message=>{
         if(message?.type==='pong'&&finite(message.t)){
           latency=Math.max(0,Math.round(performance.now()-message.t));
           $('ping-detail').textContent='Latencia de ida y vuelta: '+latency+' ms';
         }else if(message?.type==='centered'){$('orient-label').textContent='ORIENTACIÓN RECENTRADA';}
+        else if(message?.type==='game-status'){
+          if(message.phase==='loading')$('connection-detail').textContent='PC conectado · cargando el mundo 3D...';
+          else if(message.phase==='ready')$('connection-detail').textContent='Partida iniciada en PC · controles activos';
+          else if(message.phase==='error')$('connection-detail').textContent='Error al cargar en PC: '+String(message.message||'WebGPU no disponible').slice(0,130);
+        }
       });
       conn.on('close',()=>{ready=false;clearButtons();status('Desconectado');$('connection-detail').textContent='Recarga el mando o genera una conexión nueva en el PC.';});
       conn.on('error',error=>{console.warn('Conexión iPhone',error);status('Fallo de WebRTC');$('connection-detail').textContent=String(error?.message||error);});
@@ -220,8 +322,11 @@ h1{font-size:31px;margin-top:4px}.details{padding:9px 12px;gap:3px}
   $('manual-connect').addEventListener('click',manualConnect);
   $('manual-code').addEventListener('keydown',e=>{if(e.key==='Enter')manualConnect();});
   $('enable-sensors').addEventListener('click',activateSensors);
+  $('mode-gyro').addEventListener('click',()=>{void activateSensors();});
+  $('mode-joystick').addEventListener('click',()=>setMode('joystick'));
   $('recenter').addEventListener('click',()=>recenter(true));
-  $('help').addEventListener('click',()=>alert('1. PC: genera el QR y mantenlo abierto.\n2. iPhone: activa el giroscopio y acepta el permiso.\n3. Apunta el móvil al frente, pulsa RECENTRAR.\n4. Mueve el iPhone para mirar, mantén AVANZAR para nadar.'));
+  installJoystick();
+  $('help').addEventListener('click',()=>alert('1. El PC abre el juego al conectarse el mando.\n2. En JOYSTICK, arrastra el círculo para girar o mirar arriba y abajo. Al soltarlo, la vista queda fija.\n3. Para GIROSCOPIO, concede permiso en Safari y RECENTRA.\n4. Usa AVANZAR para nadar. Si el giroscopio invierte los ejes, selecciona JOYSTICK.'));
   $('disconnect').addEventListener('click',()=>{
     clearButtons();conn?.close();peer?.destroy();ready=false;status('Desconectado');
     $('connection-detail').textContent='Vuelve al PC para generar otro enlace.';
