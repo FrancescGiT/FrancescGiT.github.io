@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#04141c" />
-<title>Abyssal Laboratory V5.57 · PC + mando iPhone</title>
+<title>Abyssal Laboratory V5.57.1 · PC + mando iPhone</title>
 <style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;color:#ecf9f7;background:#04141c}
 *{box-sizing:border-box}html,body{height:100%;width:100%;padding:0;margin:0;overflow:hidden}
@@ -71,6 +71,7 @@ h1 em{font-weight:400;color:#c9fff1}
   'use strict';
   const PEERJS_URL = 'https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js';
   const QR_URL = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+  const PUBLIC_MANDO_URL = 'https://francescgit.github.io/abyssal-laboratory/prueba-iphone/mando/';
   const freshnessMs = 550;
   const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
   const wrap = angle => Math.atan2(Math.sin(angle), Math.cos(angle));
@@ -88,7 +89,7 @@ h1 em{font-weight:400;color:#c9fff1}
   }
 
   function makeID() {
-    const random = new Uint8Array(16);
+    const random = new Uint8Array(6); // 48-bit unguessable session code, easier to type
     crypto.getRandomValues(random);
     return 'abyss-' + Array.from(random, b => b.toString(16).padStart(2, '0')).join('');
   }
@@ -133,11 +134,13 @@ h1 em{font-weight:400;color:#c9fff1}
     sheet.hidden = true;
     sheet.innerHTML = `
       <section id="remote-card" role="dialog" aria-modal="true" aria-labelledby="remote-title">
-        <div class="flex"><span class="small">ABYSSAL / V5.57</span><button id="remote-close" aria-label="Cerrar panel">CERRAR</button></div>
+        <div class="flex"><span class="small">ABYSSAL / V5.57.1</span><button id="remote-close" aria-label="Cerrar panel">CERRAR</button></div>
         <h2 id="remote-title">Mando inalámbrico</h2>
-        <p>Abre este enlace desde tu iPhone 17, preferiblemente escaneando el código QR.</p>
+        <p>Escanea el QR con Safari o abre la página pública del mando e introduce el código de emparejamiento.</p>
         <div><span id="remote-led"></span><strong id="remote-state">Sin iniciar</strong></div>
-        <img id="remote-qr" alt="Código QR para enlazar el iPhone" hidden>
+        <img id="remote-qr" alt="Código QR con enlace HTTPS del mando" hidden>
+        <p id="remote-code" class="small" style="font-size:17px;font-weight:800;letter-spacing:.16em" hidden></p>
+        <a href="https://francescgit.github.io/abyssal-laboratory/prueba-iphone/mando/" target="_blank" rel="noopener" class="small">ABRIR PÁGINA PÚBLICA DEL MANDO</a>
         <a id="remote-link" target="_blank" rel="noopener" hidden></a>
         <div class="buttons">
           <button id="remote-start" class="primary" type="button">GENERAR CONEXIÓN</button>
@@ -149,7 +152,7 @@ h1 em{font-weight:400;color:#c9fff1}
     document.body.appendChild(sheet);
     return {sheet,openMenu,hud,openButton:document.getElementById('remote-start'),
       copyButton:document.getElementById('remote-copy'),stopButton:document.getElementById('remote-stop'),
-      qr:document.getElementById('remote-qr'),link:document.getElementById('remote-link'),
+      qr:document.getElementById('remote-qr'),code:document.getElementById('remote-code'),link:document.getElementById('remote-link'),
       state:document.getElementById('remote-state'),led:document.getElementById('remote-led'),
       close:document.getElementById('remote-close')};
   }
@@ -214,7 +217,11 @@ h1 em{font-weight:400;color:#c9fff1}
           const instance=new window.Peer(id, {debug:1});
           peer=instance;
           instance.on('open',peerId=>{
-            roomUrl=new URL('./mando/?room='+encodeURIComponent(peerId),location.href).href;
+            // Never expose a local file:/// path to the iPhone. GitHub Pages is always the controller host.
+            const publicController=new URL(PUBLIC_MANDO_URL);
+            publicController.searchParams.set('room',peerId);
+            roomUrl=publicController.href;
+            ui.code.textContent='CÓDIGO: '+peerId.slice(6).toUpperCase();ui.code.hidden=false;
             ui.link.href=roomUrl;ui.link.textContent=roomUrl;ui.link.hidden=false;
             ui.copyButton.disabled=false;ui.stopButton.disabled=false;
             state('Listo: escanea el QR con Safari');
@@ -251,7 +258,7 @@ h1 em{font-weight:400;color:#c9fff1}
       try{await startPromise;} finally{startPromise=null;}
     }
     function stop() {
-      roomUrl='';ui.link.hidden=true;ui.link.removeAttribute('href');
+      roomUrl='';ui.link.hidden=true;ui.link.removeAttribute('href');ui.code.hidden=true;ui.code.textContent='';
       ui.qr.hidden=true;ui.qr.removeAttribute('src');
       ui.copyButton.disabled=true;ui.stopButton.disabled=true;ui.openButton.disabled=false;
       const oldPeer=peer;peer=null;
